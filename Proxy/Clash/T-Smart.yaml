@@ -1,4 +1,4 @@
-# Updated: 2025-08-02 11:12:54
+# Updated: 2025-08-04 10:56:30
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -12,8 +12,7 @@ BaseProvider:
   }
 BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
 BaseLB: &BaseLB { type: load-balance, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
-BaseSmart:
-  &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', disable-udp: false, timeout: 5000, max-failed-times: 5, hidden: false, include-all: true, policy-priority: 'Premium:0.9;SG:1.3', uselightgbm: true, collectdata: false, strategy: sticky-sessions }
+BaseSmart: &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true, uselightgbm: true }
 FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
 FilterSG: &FilterSG '^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$'
 FilterJP: &FilterJP '^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$'
@@ -158,13 +157,13 @@ proxy-groups:
   - { name: 低倍率线路, <<: *BaseFB, proxies: [日本智能, 香港智能, 台湾智能, 狮城智能, 韩国智能, 美国智能, 欧洲智能, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
 
   # 地理策略层
-  - { name: 香港智能, <<: *BaseSmart, filter: *FilterHK, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
-  - { name: 台湾智能, <<: *BaseSmart, filter: *FilterTW, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
-  - { name: 日本智能, <<: *BaseSmart, filter: *FilterJP, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
-  - { name: 狮城智能, <<: *BaseSmart, filter: *FilterSG, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
-  - { name: 韩国智能, <<: *BaseSmart, filter: *FilterKR, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
-  - { name: 美国智能, <<: *BaseSmart, filter: *FilterUS, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
-  - { name: 欧洲智能, <<: *BaseSmart, filter: *FilterEU, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/European_Union.png }
+  - { name: 香港智能, <<: *BaseSmart, filter: *FilterHK, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
+  - { name: 台湾智能, <<: *BaseSmart, filter: *FilterTW, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
+  - { name: 日本智能, <<: *BaseSmart, filter: *FilterJP, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
+  - { name: 狮城智能, <<: *BaseSmart, filter: *FilterSG, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
+  - { name: 韩国智能, <<: *BaseSmart, filter: *FilterKR, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
+  - { name: 美国智能, <<: *BaseSmart, filter: *FilterUS, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
+  - { name: 欧洲智能, <<: *BaseSmart, filter: *FilterEU, include-all: true, policy-priority: '优:2;中:1;备:0.5', icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/European_Union.png }
 
   # 中转服务层
   # - { name: 中转服务, <<: *BaseLB, use: [优质服务商], filter: 'HK|TW', hidden: true, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
@@ -175,13 +174,14 @@ BehaviorYM: &BehaviorYM { type: http, behavior: classical, format: yaml, interva
 BehaviorDN: &BehaviorDN { type: http, behavior: domain, format: mrs, interval: 86400 }
 BehaviorIP: &BehaviorIP { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
 
+# 规则提供者
 rule-providers:
-  T-Direct: { <<: *BehaviorYM, format: yaml, url: https://dot.theojs.cn/Proxy/Rules/T-DirectList.yaml }
-  T-Global: { <<: *BehaviorYM, format: yaml, url: https://dot.theojs.cn/Proxy/Rules/T-GlobalList.yaml }
-  # Domain规则集 - 域名规则
+  T-Direct: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-DirectList.yaml }
+  T-Global: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-GlobalList.yaml }
+  # 域名规则
   Tracking: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
   Advertising: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
-  DirectFix: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/DirectFix.mrs }
+  Direct: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs }
   Private: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Private.mrs }
   Download: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Download.mrs }
   ConnCheck: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/ConnCheck.mrs }
@@ -195,16 +195,16 @@ rule-providers:
   XPTV: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/XPTV.mrs }
   Emby: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Emby.mrs }
   Streaming: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Streaming.mrs }
-  Cloudflare: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Cloudflare.mrs }
   AppleCN: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/AppleCN.mrs }
   Apple: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Apple.mrs }
   Google: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Google.mrs }
   Microsoft: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Microsoft.mrs }
   Facebook: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Facebook.mrs }
+  Cloudflare: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Cloudflare.mrs }
   Proxy: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Proxy.mrs }
   China: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/China.mrs }
 
-  # IPCIDR规则集 - IP规则
+  # IP规则
   AdvertisingIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Advertising.mrs }
   PrivateIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Private.mrs }
   AIIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/AI.mrs }
@@ -213,9 +213,9 @@ rule-providers:
   XPTVIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/XPTV.mrs }
   EmbyIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Emby.mrs }
   StreamingIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Streaming.mrs }
-  CloudflareIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Cloudflare.mrs }
   GoogleIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Google.mrs }
   FacebookIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Facebook.mrs }
+  CloudflareIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Cloudflare.mrs }
   ProxyIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/Proxy.mrs }
   ChinaIP: { <<: *BehaviorIP, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/ip/China.mrs }
 
@@ -224,23 +224,18 @@ rules:
   # 本地定制规则
   - RULE-SET,T-Direct,直接连接
   - RULE-SET,T-Global,一键智能
-
-  # 端口规则
-  - DST-PORT,123,直接连接
-  - DST-PORT,9993,直接连接
-
   # 拦截规则
   - RULE-SET,Tracking,REJECT
   - RULE-SET,Advertising,REJECT
 
-  # 应用规则
+  # 域名规则
   - RULE-SET,ConnCheck,直接连接
   - RULE-SET,Private,直接连接
-  - RULE-SET,DirectFix,直接连接
+  - RULE-SET,Direct,直接连接
   - RULE-SET,XPTV,直接连接
   - RULE-SET,AppleCN,直接连接
-  - RULE-SET,Cloudflare,一键智能
   - RULE-SET,AI,人工智能
+  - DOMAIN-KEYWORD,speedtest,网络测试
   - RULE-SET,Speedtest,网络测试
   - RULE-SET,Telegram,电报消息
   - RULE-SET,SocialMedia,社交平台
@@ -253,6 +248,7 @@ rules:
   - RULE-SET,Google,谷歌服务
   - RULE-SET,Microsoft,微软服务
   - RULE-SET,Facebook,脸书服务
+  - RULE-SET,Cloudflare,一键智能
   - RULE-SET,Proxy,国外流量
   - RULE-SET,China,国内流量
 
@@ -260,7 +256,6 @@ rules:
   - RULE-SET,AdvertisingIP,REJECT
   - RULE-SET,PrivateIP,直接连接,no-resolve
   - RULE-SET,XPTVIP,直接连接,no-resolve
-  - RULE-SET,CloudflareIP,一键智能,no-resolve
   - RULE-SET,AIIP,人工智能,no-resolve
   - RULE-SET,TelegramIP,电报消息,no-resolve
   - RULE-SET,SocialMediaIP,社交平台,no-resolve
@@ -268,9 +263,10 @@ rules:
   - RULE-SET,StreamingIP,国际媒体,no-resolve
   - RULE-SET,GoogleIP,谷歌服务,no-resolve
   - RULE-SET,FacebookIP,脸书服务,no-resolve
+  - RULE-SET,CloudflareIP,一键智能,no-resolve
   - RULE-SET,ProxyIP,国外流量,no-resolve
   - RULE-SET,ChinaIP,国内流量,no-resolve
   - DST-PORT,22,狮城智能
 
-  # 兜底规则 - 未匹配流量
+  # 兜底规则
   - MATCH,兜底流量
