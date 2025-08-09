@@ -1,4 +1,4 @@
-# Updated: 2025-08-01 15:31:17
+# Updated: 2025-08-09 19:53:55
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -10,7 +10,6 @@ payload:
   - DOMAIN,r.theojs.cn
   - DOMAIN,metshop.vip
   - DOMAIN,tail9a8bbe.ts.net
-  - DOMAIN,www.goofish.com
   - DOMAIN,www.autohanding.com
 
   # DOMAIN-SUFFIX
@@ -23,6 +22,7 @@ payload:
   # 阿里系直连
   - DOMAIN-SUFFIX,tanx.com
   - DOMAIN-SUFFIX,mmstat.com
+  - DOMAIN-SUFFIX,goofish.com
   - DOMAIN-SUFFIX,effirst.com
   - DOMAIN-SUFFIX,aliapp.org
 
