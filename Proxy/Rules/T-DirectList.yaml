@@ -1,4 +1,4 @@
-# Updated: 2025-08-09 19:53:55
+# Updated: 2025-08-18 12:50:04
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -18,6 +18,8 @@ payload:
   - DOMAIN-SUFFIX,fuchenjingji.com
   - DOMAIN-SUFFIX,dailianmama.com
   - DOMAIN-SUFFIX,asusgo.com
+  - DOMAIN-SUFFIX,koolcenter.com
+  - DOMAIN-SUFFIX,assrt.net
 
   # 阿里系直连
   - DOMAIN-SUFFIX,tanx.com
