@@ -1,2 +1,2 @@
-ignoredBuiltDependencies:
+onlyBuiltDependencies:
   - simple-git-hooks
