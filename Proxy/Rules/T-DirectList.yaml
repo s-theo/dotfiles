@@ -1,4 +1,4 @@
-# Updated: 2025-08-19 13:33:50
+# Updated: 2025-08-20 00:57:01
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -21,7 +21,6 @@ payload:
   - DOMAIN-SUFFIX,koolcenter.com
   - DOMAIN-SUFFIX,assrt.net
   - DOMAIN-SUFFIX,fnnas.com
-  - DOMAIN-SUFFIX,okaapps.com
   - DOMAIN-SUFFIX,apple-dns.cn
 
   # 阿里系直连
