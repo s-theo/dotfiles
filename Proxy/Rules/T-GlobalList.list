@@ -1,13 +1,14 @@
-# Updated: 2025-08-01 15:31:17
+# Updated: 2025-08-19 13:33:50
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 HOST-KEYWORD,theojs,T-GlobalList
 HOST-KEYWORD,itheo,T-GlobalList
+
 HOST-SUFFIX,theojs.cn,T-GlobalList
+HOST-SUFFIX,itheo.top,T-GlobalList
 HOST-SUFFIX,oracle.com,T-GlobalList
 HOST-SUFFIX,oraclecloud.com,T-GlobalList
 HOST-SUFFIX,alibabacloud.com,T-GlobalList
 HOST-SUFFIX,igoutu.cn,T-GlobalList
 HOST-SUFFIX,nf.video,T-GlobalList
-HOST-SUFFIX,itheo.top,T-GlobalList

@@ -1,4 +1,4 @@
-# Updated: 2025-08-01 15:31:17
+# Updated: 2025-08-19 13:33:50
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -8,14 +8,20 @@ HOST,cloud.ugreengroup.com,T-DirectList
 HOST,r.theojs.cn,T-DirectList
 HOST,metshop.vip,T-DirectList
 HOST,tail9a8bbe.ts.net,T-DirectList
-HOST,www.goofish.com,T-DirectList
 HOST,www.autohanding.com,T-DirectList
+
 HOST-SUFFIX,dogness.com,T-DirectList
 HOST-SUFFIX,tntmax.top,T-DirectList
-HOST-SUFFIX,istoreos.com,T-DirectList
 HOST-SUFFIX,fuchenjingji.com,T-DirectList
 HOST-SUFFIX,dailianmama.com,T-DirectList
+HOST-SUFFIX,asusgo.com,T-DirectList
+HOST-SUFFIX,koolcenter.com,T-DirectList
+HOST-SUFFIX,assrt.net,T-DirectList
+HOST-SUFFIX,fnnas.com,T-DirectList
+HOST-SUFFIX,okaapps.com,T-DirectList
+HOST-SUFFIX,apple-dns.cn,T-DirectList
 HOST-SUFFIX,tanx.com,T-DirectList
 HOST-SUFFIX,mmstat.com,T-DirectList
+HOST-SUFFIX,goofish.com,T-DirectList
 HOST-SUFFIX,effirst.com,T-DirectList
 HOST-SUFFIX,aliapp.org,T-DirectList
