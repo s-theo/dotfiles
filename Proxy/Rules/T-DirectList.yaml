@@ -1,4 +1,4 @@
-# Updated: 2025-08-20 00:57:01
+# Updated: 2025-08-29 11:21:38
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -22,6 +22,7 @@ payload:
   - DOMAIN-SUFFIX,assrt.net
   - DOMAIN-SUFFIX,fnnas.com
   - DOMAIN-SUFFIX,apple-dns.cn
+  - DOMAIN-SUFFIX,tailscale.com
 
   # 阿里系直连
   - DOMAIN-SUFFIX,tanx.com
@@ -29,6 +30,3 @@ payload:
   - DOMAIN-SUFFIX,goofish.com
   - DOMAIN-SUFFIX,effirst.com
   - DOMAIN-SUFFIX,aliapp.org
-
-  # PROCESS-NAME
-  - PROCESS-NAME,tailscaled
