@@ -1,4 +1,4 @@
-# Updated: 2025-08-29 11:21:38
+# Updated: 2025-09-14 10:44:58
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -7,6 +7,7 @@ payload:
   - DOMAIN,api.xhofe.top
   - DOMAIN,cloud.ugnas.com
   - DOMAIN,cloud.ugreengroup.com
+  - DOMAIN,zenithspace.net
   - DOMAIN,r.theojs.cn
   - DOMAIN,metshop.vip
   - DOMAIN,tail9a8bbe.ts.net
