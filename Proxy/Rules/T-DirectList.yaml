@@ -1,4 +1,4 @@
-# Updated: 2025-09-14 10:44:58
+# Updated: 2025-09-14 10:52:12
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -7,7 +7,6 @@ payload:
   - DOMAIN,api.xhofe.top
   - DOMAIN,cloud.ugnas.com
   - DOMAIN,cloud.ugreengroup.com
-  - DOMAIN,zenithspace.net
   - DOMAIN,r.theojs.cn
   - DOMAIN,metshop.vip
   - DOMAIN,tail9a8bbe.ts.net
@@ -24,6 +23,7 @@ payload:
   - DOMAIN-SUFFIX,fnnas.com
   - DOMAIN-SUFFIX,apple-dns.cn
   - DOMAIN-SUFFIX,tailscale.com
+  - DOMAIN-SUFFIX,zenithspace.net
 
   # 阿里系直连
   - DOMAIN-SUFFIX,tanx.com
