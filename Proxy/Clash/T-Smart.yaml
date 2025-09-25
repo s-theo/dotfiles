@@ -1,4 +1,4 @@
-# Updated: 2025-08-17 12:39:51
+# Updated: 2025-09-25 11:03:00
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -150,10 +150,10 @@ proxy-groups:
   - { name: 直接连接, type: select, proxies: [DIRECT], hidden: true, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Direct.png }
 
   # 线路特性层
-  - { name: 高质量线路, <<: *BaseFB, proxies: [狮城智能, 香港智能, 台湾智能, 美国智能, 日本智能, 韩国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 低延迟线路, <<: *BaseFB, proxies: [香港智能, 台湾智能, 日本智能, 狮城智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 大带宽线路, <<: *BaseFB, proxies: [狮城智能, 香港智能, 台湾智能, 日本智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 低倍率线路, <<: *BaseFB, proxies: [日本智能, 香港智能, 台湾智能, 狮城智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 高质量线路, <<: *BaseFB, proxies: [香港智能, 狮城智能, 台湾智能, 美国智能, 日本智能, 韩国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 低延迟线路, <<: *BaseFB, proxies: [香港智能, 狮城智能, 台湾智能, 日本智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 大带宽线路, <<: *BaseFB, proxies: [香港智能, 狮城智能, 台湾智能, 日本智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 低倍率线路, <<: *BaseFB, proxies: [香港智能, 日本智能, 台湾智能, 狮城智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
 
   # 地理策略层
   - { name: 香港智能, <<: *BaseSmart, filter: *FilterHK, icon: https://git.imee.me/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
@@ -231,6 +231,7 @@ rules:
   - RULE-SET,Direct,直接连接
   - RULE-SET,XPTV,直接连接
   - RULE-SET,AppleCN,直接连接
+  - RULE-SET,Download,直接连接
   - RULE-SET,AI,人工智能
   - DOMAIN-KEYWORD,speedtest,网络测试
   - RULE-SET,Speedtest,网络测试
