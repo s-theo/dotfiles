@@ -1,0 +1,14 @@
+{
+  "icons": [
+    { "name": "115", "url": "https://dot.theojs.cn/icon/115.png" },
+    { "name": "123", "url": "https://dot.theojs.cn/icon/123.png" },
+    { "name": "alidrive", "url": "https://dot.theojs.cn/icon/alidrive.png" },
+    { "name": "nijigen", "url": "https://dot.theojs.cn/icon/nijigen.jpg" },
+    { "name": "nubebelle", "url": "https://dot.theojs.cn/icon/nubebelle.jpg" },
+    { "name": "nya", "url": "https://dot.theojs.cn/icon/nya.jpg" },
+    { "name": "quark", "url": "https://dot.theojs.cn/icon/quark.png" },
+    { "name": "younopuls", "url": "https://dot.theojs.cn/icon/younopuls.jpg" },
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
+  ],
+  "name": "Author: Theo"
+}
