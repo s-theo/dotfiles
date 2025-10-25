@@ -1,4 +1,4 @@
-# Updated: 2025-10-13 18:29:27
+# Updated: 2025-10-25 16:58:40
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -177,6 +177,7 @@ BehaviorIP: &BehaviorIP { type: http, behavior: ipcidr, format: mrs, interval: 8
 rule-providers:
   T-Direct: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-DirectList.yaml }
   T-Global: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-GlobalList.yaml }
+  T-Emby: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Emby.yaml }
   # 域名规则
   Tracking: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
   Advertising: { <<: *BehaviorDN, url: https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
@@ -221,6 +222,7 @@ rules:
   # 本地定制规则
   - RULE-SET,T-Direct,直接连接
   - RULE-SET,T-Global,一键智能
+  - RULE-SET,T-Emby,Emby服
   # 拦截规则
   - RULE-SET,Tracking,REJECT
   - RULE-SET,Advertising,REJECT
