@@ -1,10 +1,8 @@
-# Updated: 2025-09-28 09:55:21
+# Updated: 2025-10-26 22:05:20
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 HOST,api.xhofe.top,T-DirectList
-HOST,cloud.ugnas.com,T-DirectList
-HOST,cloud.ugreengroup.com,T-DirectList
 HOST,r.theojs.cn,T-DirectList
 HOST,metshop.vip,T-DirectList
 HOST,tail9a8bbe.ts.net,T-DirectList
@@ -18,7 +16,6 @@ HOST-SUFFIX,asusgo.com,T-DirectList
 HOST-SUFFIX,koolcenter.com,T-DirectList
 HOST-SUFFIX,assrt.net,T-DirectList
 HOST-SUFFIX,fnnas.com,T-DirectList
-HOST-SUFFIX,apple-dns.cn,T-DirectList
 HOST-SUFFIX,tailscale.com,T-DirectList
 HOST-SUFFIX,zenithspace.net,T-DirectList
 

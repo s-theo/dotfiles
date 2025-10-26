@@ -1,12 +1,10 @@
-# Updated: 2025-09-28 09:55:21
+# Updated: 2025-10-26 22:05:20
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
   # DOMAIN
   - DOMAIN,api.xhofe.top
-  - DOMAIN,cloud.ugnas.com
-  - DOMAIN,cloud.ugreengroup.com
   - DOMAIN,r.theojs.cn
   - DOMAIN,metshop.vip
   - DOMAIN,tail9a8bbe.ts.net
@@ -21,7 +19,6 @@ payload:
   - DOMAIN-SUFFIX,koolcenter.com
   - DOMAIN-SUFFIX,assrt.net
   - DOMAIN-SUFFIX,fnnas.com
-  - DOMAIN-SUFFIX,apple-dns.cn
   - DOMAIN-SUFFIX,tailscale.com
   - DOMAIN-SUFFIX,zenithspace.net
 
