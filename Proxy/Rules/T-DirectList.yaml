@@ -1,4 +1,4 @@
-# Updated: 2025-10-26 22:05:20
+# Updated: 2025-10-30 21:37:54
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -50,3 +50,6 @@ payload:
   - DOMAIN-SUFFIX,ct.cdn.bgp.yt
   - DOMAIN-SUFFIX,us-w.cdn.bgp.yt
   - DOMAIN-SUFFIX,cu.cdn.bgp.yt
+
+  ## embydada
+  - DOMAIN-SUFFIX,10520.xyz
