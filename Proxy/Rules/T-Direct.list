@@ -1,0 +1,44 @@
+# Updated: 2025-10-31 12:10:41
+# Author: Theo
+# GitHub Source: https://github.com/s-theo/dotfiles
+
+HOST,api.xhofe.top,T-Direct
+HOST,r.theojs.cn,T-Direct
+HOST,metshop.vip,T-Direct
+HOST,tail9a8bbe.ts.net,T-Direct
+HOST,www.autohanding.com,T-Direct
+
+HOST-SUFFIX,dogness.com,T-Direct
+HOST-SUFFIX,tntmax.top,T-Direct
+HOST-SUFFIX,fuchenjingji.com,T-Direct
+HOST-SUFFIX,dailianmama.com,T-Direct
+HOST-SUFFIX,asusgo.com,T-Direct
+HOST-SUFFIX,koolcenter.com,T-Direct
+HOST-SUFFIX,assrt.net,T-Direct
+HOST-SUFFIX,fnnas.com,T-Direct
+HOST-SUFFIX,tailscale.com,T-Direct
+HOST-SUFFIX,zenithspace.net,T-Direct
+
+HOST-SUFFIX,tanx.com,T-Direct
+HOST-SUFFIX,mmstat.com,T-Direct
+HOST-SUFFIX,goofish.com,T-Direct
+HOST-SUFFIX,effirst.com,T-Direct
+HOST-SUFFIX,aliapp.org,T-Direct
+
+HOST-SUFFIX,plusjp1.younoyes.com,T-Direct
+HOST-SUFFIX,plusjp2.younoyes.com,T-Direct
+HOST-SUFFIX,plusde1.younoyes.com,T-Direct
+HOST-SUFFIX,plusus2.younoyes.com,T-Direct
+HOST-SUFFIX,plusus3.younoyes.com,T-Direct
+HOST-SUFFIX,plushk1.younoyes.com,T-Direct
+HOST-SUFFIX,plushk2.younoyes.com,T-Direct
+HOST-SUFFIX,test.younoyes.com,T-Direct
+
+HOST-SUFFIX,ap-cn01.emby.bangumi.ca,T-Direct
+HOST-SUFFIX,ap-cn02.emby.bangumi.ca,T-Direct
+HOST-SUFFIX,ap-cn03.emby.bangumi.ca,T-Direct
+
+HOST-SUFFIX,default.cdn.bgp.yt,T-Direct
+HOST-SUFFIX,ct.cdn.bgp.yt,T-Direct
+HOST-SUFFIX,us-w.cdn.bgp.yt,T-Direct
+HOST-SUFFIX,cu.cdn.bgp.yt,T-Direct

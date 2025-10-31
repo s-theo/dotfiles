@@ -1,0 +1,298 @@
+# Updated: 2025-10-31 12:10:41
+# Author: Theo
+# GitHub Source: https://github.com/s-theo/dotfiles
+
+# 锚点 - 远程订阅组
+BaseProvider:
+  &BaseProvider {
+    type: http,
+    interval: 86400,
+    proxy: DIRECT,
+    health-check: { enable: true, url: 'https://www.google.com/generate_204', interval: 300 },
+    filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
+  }
+
+# 策略组类型模板 - 定义不同的策略组基础配置
+BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.google.com/generate_204' }
+BaseCH: &BaseCH { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: consistent-hashing, hidden: true }
+BaseCR: &BaseCR { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: round-robin, hidden: true }
+BaseUT: &BaseUT { type: url-test, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', hidden: true }
+
+# 节点筛选正则表达式 - 基于地理位置和关键词过滤
+FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
+FilterSG: &FilterSG '^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$'
+FilterJP: &FilterJP '^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$'
+FilterKR: &FilterKR '^(?=.*(?i)(韩|🇰🇷|韓|首尔|南朝鲜|KR|KOR|Korea|South))(?!.*(排除1|排除2|5x)).*$'
+FilterUS: &FilterUS '^(?=.*(?i)(美|🇺🇸|US|USA|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD))(?!.*(排除1|排除2|5x)).*$'
+FilterTW: &FilterTW '^(?=.*(?i)(台|🇼🇸|🇹🇼|TW|tai|TPE|TSA|KHH))(?!.*(排除1|排除2|5x)).*$'
+FilterEU: &FilterEU '^(?=.*(?i)(奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU))(?!.*(排除1|排除2|5x)).*$'
+FilterOT: &FilterOT '^(?!.*(DIRECT|直接连接|美|港|坡|台|新|日|韩|奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇭🇰|🇼🇸|🇹🇼|🇸🇬|🇯🇵|🇰🇷|🇺🇸|🇬🇧|🇦🇹|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|HK|TW|SG|JP|KR|US|GB|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU|HKG|TPE|TSA|KHH|SIN|XSP|NRT|HND|KIX|CTS|FUK|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD|LHR|LGW))'
+FilterAL: &FilterAL '^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
+
+# 策略组代理列表模板 - 预定义的代理节点优先级排序
+SelectFB: &SelectFB { type: select, proxies: [故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+SelectPY: &SelectPY { type: select, proxies: [默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+SelectDC: &SelectDC { type: select, proxies: [直接连接, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理] }
+SelectHK: &SelectHK { type: select, proxies: [香港策略, 默认代理, 故障转移, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+SelectSG: &SelectSG { type: select, proxies: [狮城策略, 默认代理, 故障转移, 香港策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+SelectUS: &SelectUS { type: select, proxies: [美国策略, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+
+# 远程订阅组
+# 注意：请提供您的机场订阅链接，每个链接一行，并为每个机场命名，末尾的[A]为每个节点添加机场名称前缀，可自定义
+proxy-providers:
+  # 优质订阅源 - 优质节点集合，使用时请修改
+  优质服务商: { <<: *BaseProvider, url: '优质订阅源地址', override: { additional-prefix: '[优] ' } }
+  # 备用订阅源 - 次优节点集合，使用时请修改
+  备用服务商: { <<: *BaseProvider, url: '备用订阅源地址', override: { additional-prefix: '[备] ' } }
+
+# 基础配置
+mode: rule
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: true
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+log-level: warning
+bind-address: '*'
+find-process-mode: 'always'
+global-client-fingerprint: chrome
+keep-alive-interval: 15
+keep-alive-idle: 600
+
+# 认证配置
+authentication:
+  - mihomo:yyds666
+skip-auth-prefixes:
+  - 192.168.1.0/24
+  - 192.168.31.0/24
+  - 192.168.100.0/24
+  - 127.0.0.1/8
+
+# 实验性功能
+experimental:
+  quic-go-disable-gso: true
+
+# 管理面板配置
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-ui-name: zashboard
+external-ui: ui
+external-controller: 0.0.0.0:9090
+secret: yyds666
+
+# 配置存储
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# 流量嗅探
+sniffer:
+  enable: true
+  override-destination: false
+  force-dns-mapping: true
+  parse-pure-ip: true
+
+# TUN模式配置
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - 'any:53'
+    - 'tcp://any:53'
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+# DNS配置
+dns:
+  enable: true
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 119.29.29.29
+    - 180.184.1.1
+    - 223.5.5.5
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fake-ip-filter:
+    - rule-set:ConnCheck
+    - rule-set:Private
+    - rule-set:China
+    - +.miwifi.com
+    - +.docker.io
+    - +.market.xiaomi.com
+    - +.push.apple.com
+
+# 策略组
+proxy-groups:
+  - { name: 默认代理, <<: *SelectFB, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Static.png }
+  - { name: 故障转移, <<: *BaseFB, proxies: [香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 全球手动, 冷门自选, 直接连接], icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/ULB.png }
+  - { name: 国外流量, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Global.png }
+  - { name: 国内流量, <<: *SelectDC, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/China.png }
+  - { name: 兜底流量, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png }
+  - { name: 直接连接, type: select, proxies: [DIRECT], hidden: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Direct.png }
+  - { name: 网络测试, <<: *SelectPY, include-all: true, filter: *FilterAL, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Speedtest.png }
+  - { name: 抖快书定位, type: select, proxies: [直接连接, 香港策略, 台湾策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 欧盟策略], icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Null_Nation.png }
+  - { name: Emby服, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
+  - { name: 油管视频, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/YouTube.png }
+  - { name: 奈飞视频, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Netflix.png }
+  - { name: 国际媒体, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/DomesticMedia.png }
+  - { name: 新闻媒体, <<: *SelectUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple_News.png }
+  - { name: 电报消息, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram_X.png }
+  - { name: 推特社交, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/X.png }
+  - { name: 社交平台, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/PBS.png }
+  - { name: 人工智能, <<: *SelectUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/AI.png }
+  - { name: 货币平台, <<: *SelectSG, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/Bitcloud.png }
+  - { name: 游戏平台, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Game.png }
+  - { name: 微软服务, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Microsoft.png }
+  - { name: 谷歌服务, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png }
+  - { name: 苹果服务, <<: *SelectPY, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple.png }
+  - { name: 香港策略, type: select, proxies: [香港自动, 香港均衡-散列, 香港均衡-轮询], include-all: true, filter: *FilterHK, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
+  - { name: 台湾策略, type: select, proxies: [台湾自动, 台湾均衡-散列, 台湾均衡-轮询], include-all: true, filter: *FilterTW, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
+  - { name: 狮城策略, type: select, proxies: [狮城自动, 狮城均衡-散列, 狮城均衡-轮询], include-all: true, filter: *FilterSG, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
+  - { name: 日本策略, type: select, proxies: [日本自动, 日本均衡-散列, 日本均衡-轮询], include-all: true, filter: *FilterJP, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
+  - { name: 韩国策略, type: select, proxies: [韩国自动, 韩国均衡-散列, 韩国均衡-轮询], include-all: true, filter: *FilterKR, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
+  - { name: 美国策略, type: select, proxies: [美国自动, 美国均衡-散列, 美国均衡-轮询], include-all: true, filter: *FilterUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
+  - { name: 欧盟策略, type: select, proxies: [欧盟自动, 欧盟均衡-散列, 欧盟均衡-轮询], include-all: true, filter: *FilterEU, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/European_Union.png }
+  - { name: 冷门自选, type: select, include-all: true, filter: *FilterOT, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Europe_Map.png }
+  - { name: 全球手动, type: select, include-all: true, filter: *FilterAL, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Clubhouse.png }
+  - { name: 链式代理, type: relay, proxies: [中转机, 落地机], icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/TIDAL_1.png }
+  - { name: 中转机, type: select, proxies: [香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接], icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Rocket.png }
+  - { name: 落地机, type: select, include-all: true, filter: *FilterAL, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Domestic.png }
+  - { name: 香港自动, <<: *BaseUT, include-all: true, filter: *FilterHK, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 台湾自动, <<: *BaseUT, include-all: true, filter: *FilterTW, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 狮城自动, <<: *BaseUT, include-all: true, filter: *FilterSG, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 日本自动, <<: *BaseUT, include-all: true, filter: *FilterJP, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 韩国自动, <<: *BaseUT, include-all: true, filter: *FilterKR, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 美国自动, <<: *BaseUT, include-all: true, filter: *FilterUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 欧盟自动, <<: *BaseUT, include-all: true, filter: *FilterEU, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 香港均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterHK, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 台湾均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterTW, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 狮城均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterSG, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 日本均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterJP, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 韩国均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterKR, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 美国均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 欧盟均衡-散列, <<: *BaseCH, include-all: true, filter: *FilterEU, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 香港均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterHK, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 台湾均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterTW, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 狮城均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterSG, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 日本均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterJP, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 韩国均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterKR, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 美国均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+  - { name: 欧盟均衡-轮询, <<: *BaseCR, include-all: true, filter: *FilterEU, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
+
+# 规则集
+# 规则集行为模板
+BehaviorDN: &BehaviorDN { type: http, behavior: domain, format: mrs, interval: 86400 }
+BehaviorIP: &BehaviorIP { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
+BehaviorYM: &BehaviorYM { type: http, behavior: domain, format: yaml, interval: 86400 }
+
+# 规则提供者
+rule-providers:
+  T-Direct: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.yaml }
+  T-Global: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Global.yaml }
+  T-EmbyDirect: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.yaml }
+  T-EmbyGlobal: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.yaml }
+  # 域名规则
+  Tracking: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
+  Advertising: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
+  Direct: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs }
+  LocationDKS: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/LocationDKS.mrs }
+  Private: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Private.mrs }
+  Download: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Download.mrs }
+  ConnCheck: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/ConnCheck.mrs }
+  Speedtest: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Speedtest.mrs }
+  AI: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/AI.mrs }
+  Telegram: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Telegram.mrs }
+  Twitter: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Twitter.mrs }
+  SocialMedia: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/SocialMedia.mrs }
+  NewsMedia: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/NewsMedia.mrs }
+  Games: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Games.mrs }
+  Crypto: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Crypto.mrs }
+  Netflix: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Netflix.mrs }
+  YouTube: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/YouTube.mrs }
+  XPTV: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/XPTV.mrs }
+  Emby: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Emby.mrs }
+  Streaming: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Streaming.mrs }
+  AppleCN: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/AppleCN.mrs }
+  Apple: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Apple.mrs }
+  Google: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Google.mrs }
+  Microsoft: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Microsoft.mrs }
+  Facebook: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Facebook.mrs }
+  Proxy: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Proxy.mrs }
+  China: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/China.mrs }
+
+  # IP规则
+  AdvertisingIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Advertising.mrs }
+  PrivateIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Private.mrs }
+  AIIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/AI.mrs }
+  TelegramIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Telegram.mrs }
+  SocialMediaIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/SocialMedia.mrs }
+  XPTVIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/XPTV.mrs }
+  EmbyIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Emby.mrs }
+  NetflixIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Netflix.mrs }
+  StreamingIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Streaming.mrs }
+  GoogleIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Google.mrs }
+  FacebookIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Facebook.mrs }
+  ProxyIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/Proxy.mrs }
+  ChinaIP: { <<: *BehaviorIP, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/ip/China.mrs }
+
+# 规则路由
+rules:
+  # 本地定制规则
+  - RULE-SET,T-Direct,直接连接
+  - RULE-SET,T-Global,默认代理
+  - RULE-SET,T-EmbyGlobal,Emby服
+  - RULE-SET,T-EmbyDirect,直接连接
+  # 拦截规则
+  - RULE-SET,Tracking,REJECT
+  - RULE-SET,Advertising,REJECT
+
+  # 域名规则
+  - RULE-SET,LocationDKS,抖快书定位
+  - RULE-SET,ConnCheck,直接连接
+  - RULE-SET,Private,直接连接
+  - RULE-SET,Direct,直接连接
+  - RULE-SET,XPTV,直接连接
+  - RULE-SET,AppleCN,直接连接
+  - RULE-SET,AI,人工智能
+  - DOMAIN-KEYWORD,speedtest,网络测试
+  - RULE-SET,Speedtest,网络测试
+  - RULE-SET,Twitter,推特社交
+  - RULE-SET,Telegram,电报消息
+  - RULE-SET,SocialMedia,社交平台
+  - RULE-SET,NewsMedia,新闻媒体
+  - RULE-SET,Games,游戏平台
+  - RULE-SET,Crypto,货币平台
+  - RULE-SET,Emby,Emby服
+  - RULE-SET,Netflix,奈飞视频
+  - RULE-SET,YouTube,油管视频
+  - RULE-SET,Streaming,国际媒体
+  - RULE-SET,Apple,苹果服务
+  - RULE-SET,Google,谷歌服务
+  - RULE-SET,Microsoft,微软服务
+  - RULE-SET,Proxy,国外流量
+  - RULE-SET,China,国内流量
+
+  # IP规则
+  - RULE-SET,AdvertisingIP,REJECT,no-resolve
+  - RULE-SET,PrivateIP,直接连接,no-resolve
+  - RULE-SET,XPTVIP,直接连接,no-resolve
+  - RULE-SET,AIIP,人工智能,no-resolve
+  - RULE-SET,TelegramIP,电报消息,no-resolve
+  - RULE-SET,SocialMediaIP,社交平台,no-resolve
+  - RULE-SET,EmbyIP,Emby服,no-resolve
+  - RULE-SET,NetflixIP,奈飞视频,no-resolve
+  - RULE-SET,StreamingIP,国际媒体,no-resolve
+  - RULE-SET,GoogleIP,谷歌服务,no-resolve
+  - RULE-SET,ProxyIP,国外流量,no-resolve
+  - RULE-SET,ChinaIP,国内流量,no-resolve
+  - DST-PORT,22,狮城策略
+
+  # 兜底规则
+  - MATCH,兜底流量
