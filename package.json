@@ -8,7 +8,7 @@
     "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "prettier --experimental-cli --ignore-unknown --write"
+    "*": "prettier --experimental-cli --ignore-unknown --write {files}"
   },
   "devDependencies": {
     "lint-staged": "^16.2.4",
