@@ -1,4 +1,4 @@
-# Updated: 2025-11-08 21:02:27
+# Updated: 2025-11-09 18:11:01
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -6,7 +6,6 @@ payload:
   # DOMAIN
   - DOMAIN,api.xhofe.top
   - DOMAIN,r.theojs.cn
-  - DOMAIN,cf.theojs.cn
   - DOMAIN,git.theojs.cn
   - DOMAIN,metshop.vip
   - DOMAIN,tail9a8bbe.ts.net
