@@ -1,7 +1,8 @@
-# Updated: 2025-10-31 12:10:41
+# Updated: 2025-11-13 19:28:31
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
   - DOMAIN-SUFFIX,emby.nubebelle.cn
+  - DOMAIN-SUFFIX,fallback.nubebelle.com
   - DOMAIN-SUFFIX,emos.lol
