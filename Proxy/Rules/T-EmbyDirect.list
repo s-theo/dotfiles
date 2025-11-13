@@ -1,15 +1,15 @@
-# Updated: 2025-10-31 12:10:41
+# Updated: 2025-11-13 10:41:20
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 HOST-SUFFIX,plusjp1.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plusjp2.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plusde1.younoyes.com,T-EmbyDirect
+HOST-SUFFIX,plusus1.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plusus2.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plusus3.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plushk1.younoyes.com,T-EmbyDirect
 HOST-SUFFIX,plushk2.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,test.younoyes.com,T-EmbyDirect
 
 HOST-SUFFIX,ap-cn01.emby.bangumi.ca,T-EmbyDirect
 HOST-SUFFIX,ap-cn02.emby.bangumi.ca,T-EmbyDirect

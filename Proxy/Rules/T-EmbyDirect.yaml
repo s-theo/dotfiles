@@ -1,4 +1,4 @@
-# Updated: 2025-10-31 12:10:41
+# Updated: 2025-11-13 10:41:20
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -7,11 +7,11 @@ payload:
   - DOMAIN-SUFFIX,plusjp1.younoyes.com
   - DOMAIN-SUFFIX,plusjp2.younoyes.com
   - DOMAIN-SUFFIX,plusde1.younoyes.com
+  - DOMAIN-SUFFIX,plusus1.younoyes.com
   - DOMAIN-SUFFIX,plusus2.younoyes.com
   - DOMAIN-SUFFIX,plusus3.younoyes.com
   - DOMAIN-SUFFIX,plushk1.younoyes.com
   - DOMAIN-SUFFIX,plushk2.younoyes.com
-  - DOMAIN-SUFFIX,test.younoyes.com
 
   ## Nya
   - DOMAIN-SUFFIX,ap-cn01.emby.bangumi.ca
