@@ -1,4 +1,4 @@
-# Updated: 2025-11-09 18:11:01
+# Updated: 2025-11-14 11:18:13
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -12,7 +12,7 @@ BaseProvider:
   }
 BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
 BaseLB: &BaseLB { type: load-balance, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
-BaseSmart: &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true, uselightgbm: true, include-all: true, policy-priority: '优:2;中:1;备:0.5' }
+BaseSmart: &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true, uselightgbm: true, include-all: true, prefer-asn: true, policy-priority: '优:2;中:1;备:0.5' }
 FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
 FilterSG: &FilterSG '^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$'
 FilterJP: &FilterJP '^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$'
@@ -120,7 +120,7 @@ dns:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
   fake-ip-filter:
-    - rule-set:ConnCheck
+    - rule-set:Direct
     - rule-set:Private
     - rule-set:China
     - +.miwifi.com
@@ -185,7 +185,6 @@ rule-providers:
   Direct: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs }
   Private: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Private.mrs }
   Download: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Download.mrs }
-  ConnCheck: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/ConnCheck.mrs }
   Speedtest: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Speedtest.mrs }
   AI: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/AI.mrs }
   Telegram: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Telegram.mrs }
@@ -230,7 +229,6 @@ rules:
   - RULE-SET,Advertising,REJECT
 
   # 域名规则
-  - RULE-SET,ConnCheck,直接连接
   - RULE-SET,Private,直接连接
   - RULE-SET,Direct,直接连接
   - RULE-SET,XPTV,直接连接
