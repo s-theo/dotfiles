@@ -1,7 +1,11 @@
-# Updated: 2025-11-13 19:28:31
+# Updated: 2025-11-22 00:03:01
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 HOST-SUFFIX,emby.nubebelle.cn,T-EmbyGlobal
 HOST-SUFFIX,fallback.nubebelle.com,T-EmbyGlobal
+HOST-SUFFIX,emby-a.nubebelle.com,T-EmbyGlobal
 HOST-SUFFIX,emos.lol,T-EmbyGlobal
+HOST-SUFFIX,media.nijigem.by,T-EmbyGlobal
+HOST-SUFFIX,plus.younoyes.com,T-EmbyGlobal
+HOST-SUFFIX,emby.bangumi.ca,T-EmbyGlobal

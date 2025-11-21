@@ -1,4 +1,4 @@
-# Updated: 2025-10-31 12:10:41
+# Updated: 2025-11-22 00:03:01
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -13,3 +13,6 @@ HOST-SUFFIX,alibabacloud.com,T-Global
 HOST-SUFFIX,igoutu.cn,T-Global
 HOST-SUFFIX,nf.video,T-Global
 HOST-SUFFIX,okaapps.com,T-Global
+HOST-SUFFIX,apple-relay.apple.com,T-Global
+HOST-SUFFIX,apple-relay.cloudflare.com,T-Global
+HOST-SUFFIX,apple-relay.fastly-edge.com,T-Global
