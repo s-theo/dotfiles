@@ -1,4 +1,4 @@
-# Updated: 2025-11-22 00:03:01
+# Updated: 2025-11-23 19:07:33
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -16,3 +16,5 @@ HOST-SUFFIX,okaapps.com,T-Global
 HOST-SUFFIX,apple-relay.apple.com,T-Global
 HOST-SUFFIX,apple-relay.cloudflare.com,T-Global
 HOST-SUFFIX,apple-relay.fastly-edge.com,T-Global
+HOST-SUFFIX,apple-relay.mask.apple-dns.net,T-Global
+HOST-SUFFIX,gspe1-ssl.ls.apple.com,T-Global

@@ -1,4 +1,4 @@
-# Updated: 2025-11-22 00:03:01
+# Updated: 2025-11-23 19:07:33
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -21,3 +21,5 @@ payload:
   - DOMAIN,apple-relay.apple.com
   - DOMAIN,apple-relay.cloudflare.com
   - DOMAIN,apple-relay.fastly-edge.com
+  - DOMAIN,apple-relay.mask.apple-dns.net
+  - DOMAIN,gspe1-ssl.ls.apple.com
