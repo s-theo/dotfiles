@@ -1,19 +1,11 @@
-# Updated: 2025-11-22 00:03:01
+# Updated: 2025-11-25 21:57:21
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
-HOST-SUFFIX,plusjp1.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plusde1.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plusus1.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plusus2.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plusus3.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plushk1.younoyes.com,T-EmbyDirect
-HOST-SUFFIX,plushk2.younoyes.com,T-EmbyDirect
-
-HOST-SUFFIX,ap-cn01.emby.bangumi.ca,T-EmbyDirect
-HOST-SUFFIX,ap-cn02.emby.bangumi.ca,T-EmbyDirect
-HOST-SUFFIX,ap-cn03.emby.bangumi.ca,T-EmbyDirect
-HOST-SUFFIX,ap-cn04.emby.bangumi.ca,T-EmbyDirect
+HOST-SUFFIX,younoyes.com,T-EmbyDirect
+HOST-SUFFIX,567741.xyz,T-EmbyDirect
+HOST-SUFFIX,65194798.xyz,T-EmbyDirect
+HOST-SUFFIX,emby.bangumi.ca,T-EmbyDirect
 
 HOST-SUFFIX,default.cdn.bgp.yt,T-EmbyDirect
 HOST-SUFFIX,ct.cdn.bgp.yt,T-EmbyDirect

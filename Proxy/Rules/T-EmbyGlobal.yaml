@@ -1,12 +1,12 @@
-# Updated: 2025-11-22 00:03:01
+# Updated: 2025-11-25 21:57:21
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
-  - DOMAIN-SUFFIX,emby.nubebelle.cn
-  - DOMAIN-SUFFIX,fallback.nubebelle.com
-  - DOMAIN-SUFFIX,emby-a.nubebelle.com
-  - DOMAIN-SUFFIX,emos.lol
-  - DOMAIN-SUFFIX,media.nijigem.by
-  - DOMAIN-SUFFIX,plus.younoyes.com
-  - DOMAIN-SUFFIX,emby.bangumi.ca
+  - DOMAIN,emby.nubebelle.cn
+  - DOMAIN,fallback.nubebelle.com
+  - DOMAIN,emby-a.nubebelle.com
+  - DOMAIN,emos.lol
+  - DOMAIN,media.nijigem.by
+  - DOMAIN,plus.younoyes.com
+  - DOMAIN,emby.bangumi.ca
