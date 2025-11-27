@@ -1,4 +1,5 @@
 {
+  "description": "by Theo",
   "icons": [
     { "name": "115", "url": "https://dot.theojs.cn/icon/115.png" },
     { "name": "123", "url": "https://dot.theojs.cn/icon/123.png" },
@@ -12,5 +13,5 @@
     { "name": "younopuls", "url": "https://dot.theojs.cn/icon/younopuls.jpg" },
     { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
   ],
-  "name": "Author: Theo"
+  "name": "Emby Icon"
 }
