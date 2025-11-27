@@ -1,4 +1,4 @@
-# Updated: 2025-11-23 19:07:33
+# Updated: 2025-11-27 20:15:19
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -16,6 +16,7 @@ payload:
   - DOMAIN-SUFFIX,igoutu.cn
   - DOMAIN-SUFFIX,nf.video
   - DOMAIN-SUFFIX,okaapps.com
+  - DOMAIN-SUFFIX,tmdb.org
 
   # Apple Intelligence
   - DOMAIN,apple-relay.apple.com
