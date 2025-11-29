@@ -1,4 +1,4 @@
-# Updated: 2025-11-29 14:18:58
+# Updated: 2025-11-29 22:39:06
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -11,3 +11,4 @@ payload:
   - DOMAIN-SUFFIX,okemby.org
   - DOMAIN-SUFFIX,nubebelle.com
   - DOMAIN-SUFFIX,nubebelle.cn
+  - DOMAIN-SUFFIX,567741.xyz
