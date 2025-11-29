@@ -1,11 +1,12 @@
-# Updated: 2025-11-25 21:57:21
+# Updated: 2025-11-29 14:18:58
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
-HOST,emby.nubebelle.cn,T-EmbyGlobal
-HOST,fallback.nubebelle.com,T-EmbyGlobal
-HOST,emby-a.nubebelle.com,T-EmbyGlobal
 HOST,emos.lol,T-EmbyGlobal
+HOST,empn.mom,T-EmbyGlobal
 HOST,media.nijigem.by,T-EmbyGlobal
 HOST,plus.younoyes.com,T-EmbyGlobal
 HOST,emby.bangumi.ca,T-EmbyGlobal
+HOST-SUFFIX,okemby.org,T-EmbyGlobal
+HOST-SUFFIX,nubebelle.com,T-EmbyGlobal
+HOST-SUFFIX,nubebelle.cn,T-EmbyGlobal

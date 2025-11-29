@@ -1,21 +1,25 @@
-# Updated: 2025-11-25 21:57:21
+# Updated: 2025-11-29 14:18:58
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
-  ## YounoPlus
+  # YounoPlus
   - DOMAIN-SUFFIX,younoyes.com
   - DOMAIN-SUFFIX,567741.xyz
   - DOMAIN-SUFFIX,65194798.xyz
 
-  ## Nya
+  # Nya
   - DOMAIN-SUFFIX,emby.bangumi.ca
 
-  ## nijigen
+  # nijigen
   - DOMAIN-SUFFIX,default.cdn.bgp.yt
   - DOMAIN-SUFFIX,ct.cdn.bgp.yt
   - DOMAIN-SUFFIX,us-w.cdn.bgp.yt
   - DOMAIN-SUFFIX,cu.cdn.bgp.yt
 
-  ## embydada
+  # embydada
   - DOMAIN-SUFFIX,10520.xyz
+
+  # emos
+  - DOMAIN-SUFFIX,emos.movier.ink
+  - DOMAIN-SUFFIX,emos.dolby.dpdns.org

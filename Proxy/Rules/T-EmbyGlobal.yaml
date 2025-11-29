@@ -1,12 +1,13 @@
-# Updated: 2025-11-25 21:57:21
+# Updated: 2025-11-29 14:18:58
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
-  - DOMAIN,emby.nubebelle.cn
-  - DOMAIN,fallback.nubebelle.com
-  - DOMAIN,emby-a.nubebelle.com
   - DOMAIN,emos.lol
+  - DOMAIN,empn.mom
   - DOMAIN,media.nijigem.by
   - DOMAIN,plus.younoyes.com
   - DOMAIN,emby.bangumi.ca
+  - DOMAIN-SUFFIX,okemby.org
+  - DOMAIN-SUFFIX,nubebelle.com
+  - DOMAIN-SUFFIX,nubebelle.cn

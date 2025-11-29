@@ -1,4 +1,4 @@
-# Updated: 2025-11-25 21:57:21
+# Updated: 2025-11-29 14:18:58
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -13,3 +13,5 @@ HOST-SUFFIX,us-w.cdn.bgp.yt,T-EmbyDirect
 HOST-SUFFIX,cu.cdn.bgp.yt,T-EmbyDirect
 
 HOST-SUFFIX,10520.xyz,T-EmbyDirect
+HOST-SUFFIX,emos.movier.ink,T-EmbyDirect
+HOST-SUFFIX,emos.dolby.dpdns.org,T-EmbyDirect
