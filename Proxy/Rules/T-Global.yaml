@@ -1,4 +1,4 @@
-# Updated: 2025-11-27 20:15:19
+# Updated: 2025-11-30 16:17:59
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -19,8 +19,4 @@ payload:
   - DOMAIN-SUFFIX,tmdb.org
 
   # Apple Intelligence
-  - DOMAIN,apple-relay.apple.com
-  - DOMAIN,apple-relay.cloudflare.com
-  - DOMAIN,apple-relay.fastly-edge.com
   - DOMAIN,apple-relay.mask.apple-dns.net
-  - DOMAIN,gspe1-ssl.ls.apple.com
