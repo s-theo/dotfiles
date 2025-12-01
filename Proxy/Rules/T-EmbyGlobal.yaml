@@ -1,4 +1,4 @@
-# Updated: 2025-12-01 21:09:45
+# Updated: 2025-12-01 21:57:53
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -8,7 +8,7 @@ payload:
   - DOMAIN,media.nijigem.by
   - DOMAIN,plus.younoyes.com
   - DOMAIN,main.younopro.de
-  - DOMAIN,r4gvw.65194798.xyz
+  - DOMAIN-SUFFIX,65194798.xyz
   - DOMAIN,emby.bangumi.ca
   - DOMAIN,www.lilyemby.my
   - DOMAIN,www.lilyemby.com
