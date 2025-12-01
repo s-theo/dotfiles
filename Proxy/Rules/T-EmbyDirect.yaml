@@ -1,4 +1,4 @@
-# Updated: 2025-11-29 22:39:06
+# Updated: 2025-12-01 17:59:12
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -22,3 +22,6 @@ payload:
   # emos
   - DOMAIN-SUFFIX,emos.movier.ink
   - DOMAIN-SUFFIX,emos.dolby.dpdns.org
+
+  # Lily
+  - DOMAIN-SUFFIX,lilyemby.my

@@ -12,7 +12,8 @@
     { "name": "okemby", "url": "https://dot.theojs.cn/icon/okemby.jpg" },
     { "name": "quark", "url": "https://dot.theojs.cn/icon/quark.png" },
     { "name": "younopuls", "url": "https://dot.theojs.cn/icon/younopuls.jpg" },
-    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
+    { "name": "lily", "url": "https://dot.theojs.cn/icon/lily.jpg" }
   ],
   "name": "Emby Icon"
 }

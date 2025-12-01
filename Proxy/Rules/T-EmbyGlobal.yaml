@@ -1,4 +1,4 @@
-# Updated: 2025-11-29 22:39:06
+# Updated: 2025-12-01 17:59:12
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -8,6 +8,8 @@ payload:
   - DOMAIN,media.nijigem.by
   - DOMAIN,plus.younoyes.com
   - DOMAIN,emby.bangumi.ca
+  - DOMAIN,www.lilyemby.my
+  - DOMAIN,www.lilyemby.com
   - DOMAIN-SUFFIX,okemby.org
   - DOMAIN-SUFFIX,nubebelle.com
   - DOMAIN-SUFFIX,nubebelle.cn
