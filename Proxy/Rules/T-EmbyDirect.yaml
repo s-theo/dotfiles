@@ -1,11 +1,12 @@
-# Updated: 2025-12-01 17:59:12
+# Updated: 2025-12-01 21:09:45
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
 payload:
-  # YounoPlus
+  # Youno
   - DOMAIN-SUFFIX,younoyes.com
   - DOMAIN-SUFFIX,65194798.xyz
+  - DOMAIN-SUFFIX,younopro.de
 
   # Nya
   - DOMAIN-SUFFIX,emby.bangumi.ca
