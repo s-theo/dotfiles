@@ -31,6 +31,11 @@ jobs:
 
           for file in $files_to_update; do 
             if [ -f "$file" ]; then 
+              if [[ "$file" == *.mrs ]]; then
+                echo "跳过 $file"
+                continue
+              fi
+
               if git diff HEAD~1 HEAD -- "$file" | grep -q "$file"; then
                 original_content=$(cat "$file") 
                 updated_content=$(echo "$original_content" | sed -E 's/^# Updated: .*/# Updated: '"${{ env.DATE }}"'/')  
