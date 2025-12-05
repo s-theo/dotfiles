@@ -1,0 +1,87 @@
+name: Update File Time Info
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_file_time_info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config user.name "vercel"
+          git config user.email "vercel[bot]@users.noreply.github.com"
+
+      - name: Get current date
+        id: current_date
+        run: echo "DATE=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
+      - name: Update files with commit info
+        run: |
+          files_to_update="Proxy/**/*"  
+
+          for file in $files_to_update; do 
+            if [ -f "$file" ]; then 
+              if git diff HEAD~1 HEAD -- "$file" | grep -q "$file"; then
+                original_content=$(cat "$file") 
+                updated_content=$(echo "$original_content" | sed -E 's/^# Updated: .*/# Updated: '"${{ env.DATE }}"'/')  
+
+                echo "$updated_content" > "$file.tmp" 
+
+                if ! cmp -s "$file" "$file.tmp"; then
+                  mv "$file.tmp" "$file" 
+                else
+                  rm "$file.tmp"
+                fi
+              else
+                echo "$file has no changes in the last commit."
+              fi
+            fi
+          done
+
+      - name: Commit and push changes
+        run: |
+          git add Proxy/**/*
+          if ! git diff --quiet; then
+            git commit -m "${{ env.DATE }}"
+          fi
+          git reset --soft HEAD^
+          git commit -m "${{ env.DATE }}"
+          git push -f origin main
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Translate job status to Chinese
+        id: translate-status
+        run: |
+          case "${{ job.status }}" in
+            success) translated_status="成功" ;;
+            failure) translated_status="失败" ;;
+            cancelled) translated_status="取消" ;;
+            *) translated_status="未知" ;;
+          esac
+          echo "translated_status=$translated_status" >> $GITHUB_ENV
+
+      - name: Notify job status
+        if: always()
+        run: |
+          curl -X "POST" "${{ secrets.BARK_KEY }}" \
+             -H 'Content-Type: application/json; charset=utf-8' \
+             -d '{
+                    "body": "${{ github.repository }}于${{ env.DATE }}运行${{ env.translated_status }}",
+                    "title": "Github Actions",
+                    "badge": 1,
+                    "sound": "multiwayinvitation.caf",
+                    "icon": "https://i.theojs.cn/logo/vercel-light.webp",
+                    "group": "Github Actions"
+                  }'
