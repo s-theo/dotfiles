@@ -2,6 +2,7 @@
   "scripts": {
     "format": "prettier --experimental-cli --write .",
     "format:cheak": "prettier --experimental-cli --check .",
+    "mrs": "./Tools/mrs.sh",
     "pull": "git fetch origin && git reset --hard origin/main"
   },
   "simple-git-hooks": {
