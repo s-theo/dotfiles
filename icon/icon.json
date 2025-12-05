@@ -1,0 +1,22 @@
+{
+  "description": "by Theo",
+  "icons": [
+    { "name": "115", "url": "https://dot.theojs.cn/icon/115.png" },
+    { "name": "123", "url": "https://dot.theojs.cn/icon/123.png" },
+    { "name": "alidrive", "url": "https://dot.theojs.cn/icon/alidrive.png" },
+    { "name": "embydada", "url": "https://dot.theojs.cn/icon/embydada.jpg" },
+    { "name": "emos", "url": "https://dot.theojs.cn/icon/emos.jpg" },
+    { "name": "nijigen", "url": "https://dot.theojs.cn/icon/nijigen.jpg" },
+    { "name": "nubebelle", "url": "https://dot.theojs.cn/icon/nubebelle.jpg" },
+    { "name": "nya", "url": "https://dot.theojs.cn/icon/nya.jpg" },
+    { "name": "okemby", "url": "https://dot.theojs.cn/icon/okemby.jpg" },
+    { "name": "quark", "url": "https://dot.theojs.cn/icon/quark.png" },
+    { "name": "younopuls", "url": "https://dot.theojs.cn/icon/younopuls.jpg" },
+    { "name": "younopro", "url": "https://dot.theojs.cn/icon/younopro.jpg" },
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
+    { "name": "lily", "url": "https://dot.theojs.cn/icon/lily.jpg" },
+    { "name": "yunhai", "url": "https://dot.theojs.cn/icon/yunhai.jpg" },
+    { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" }
+  ],
+  "name": "Emby Icon"
+}
