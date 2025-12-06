@@ -1,4 +1,4 @@
-# Updated: 2025-11-14 11:18:13
+# Updated: 2025-12-06 14:51:55
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -8,15 +8,15 @@ BaseProvider:
     type: http,
     interval: 86400,
     proxy: DIRECT,
-    health-check: { enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300 },
+    health-check: { enable: true, url: 'https://www.google.com/generate_204', interval: 300 },
     filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
   }
 
 # 策略组类型模板 - 定义不同的策略组基础配置
-BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
-BaseCH: &BaseCH { type: load-balance, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', strategy: consistent-hashing, hidden: true }
-BaseCR: &BaseCR { type: load-balance, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', strategy: round-robin, hidden: true }
-BaseUT: &BaseUT { type: url-test, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true }
+BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.google.com/generate_204' }
+BaseCH: &BaseCH { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: consistent-hashing, hidden: true }
+BaseCR: &BaseCR { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: round-robin, hidden: true }
+BaseUT: &BaseUT { type: url-test, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', hidden: true }
 
 # 节点筛选正则表达式 - 基于地理位置和关键词过滤
 FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
@@ -30,12 +30,12 @@ FilterOT: &FilterOT '^(?!.*(DIRECT|直接连接|美|港|坡|台|新|日|韩|奥|
 FilterAL: &FilterAL '^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
 
 # 策略组代理列表模板 - 预定义的代理节点优先级排序
-SelectFB: &SelectFB { type: select, proxies: [故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
-SelectPY: &SelectPY { type: select, proxies: [默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
-SelectDC: &SelectDC { type: select, proxies: [直接连接, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理] }
-SelectHK: &SelectHK { type: select, proxies: [香港策略, 默认代理, 故障转移, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
-SelectSG: &SelectSG { type: select, proxies: [狮城策略, 默认代理, 故障转移, 香港策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
-SelectUS: &SelectUS { type: select, proxies: [美国策略, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 链式代理, 直接连接] }
+SelectFB: &SelectFB { type: select, proxies: [故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
+SelectPY: &SelectPY { type: select, proxies: [默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
+SelectDC: &SelectDC { type: select, proxies: [直接连接, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动] }
+SelectHK: &SelectHK { type: select, proxies: [香港策略, 默认代理, 故障转移, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
+SelectSG: &SelectSG { type: select, proxies: [狮城策略, 默认代理, 故障转移, 香港策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
+SelectUS: &SelectUS { type: select, proxies: [美国策略, 默认代理, 故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
 
 # 远程订阅组
 # 注意：请提供您的机场订阅链接，每个链接一行，并为每个机场命名，末尾的[A]为每个节点添加机场名称前缀，可自定义
@@ -80,7 +80,7 @@ experimental:
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-ui-name: zashboard
 external-ui: ui
-external-controller: 0.0.0.0:9090
+external-controller: 127.0.0.1:9090
 secret: yyds666
 
 # 配置存储
@@ -91,13 +91,21 @@ profile:
 # 流量嗅探
 sniffer:
   enable: true
-  override-destination: false
-  force-dns-mapping: true
-  parse-pure-ip: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - 'Mijia Cloud'
+    - '+.push.apple.com'
 
 # TUN模式配置
 tun:
-  enable: true
+  enable: false
   stack: mixed
   dns-hijack:
     - 'any:53'
@@ -196,8 +204,8 @@ BehaviorYM: &BehaviorYM { type: http, behavior: domain, format: yaml, interval: 
 rule-providers:
   T-Direct: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.yaml }
   T-Global: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Global.yaml }
-  T-EmbyDirect: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.yaml }
-  T-EmbyGlobal: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.yaml }
+  T-EmbyDirect: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.mrs }
+  T-EmbyGlobal: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.mrs }
   # 域名规则
   Tracking: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
   Advertising: { <<: *BehaviorDN, url: https://git.theojs.cn/https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
@@ -251,12 +259,14 @@ rules:
   # 拦截规则
   - RULE-SET,Tracking,REJECT
   - RULE-SET,Advertising,REJECT
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # 阻止 QUIC
 
   # 域名规则
   - RULE-SET,LocationDKS,抖快书定位
   - RULE-SET,Private,直接连接
   - RULE-SET,Direct,直接连接
   - RULE-SET,XPTV,直接连接
+  - RULE-SET,Download,直接连接
   - RULE-SET,AppleCN,直接连接
   - RULE-SET,AI,人工智能
   - DOMAIN-KEYWORD,speedtest,网络测试

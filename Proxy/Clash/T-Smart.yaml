@@ -1,4 +1,4 @@
-# Updated: 2025-12-05 16:30:23
+# Updated: 2025-12-06 14:51:55
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -7,12 +7,12 @@ BaseProvider:
     type: http,
     interval: 86400,
     proxy: DIRECT,
-    health-check: { enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300 },
+    health-check: { enable: true, url: 'https://www.google.com/generate_204', interval: 300 },
     filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
   }
-BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
-BaseLB: &BaseLB { type: load-balance, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204' }
-BaseSmart: &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true, uselightgbm: true, include-all: true, prefer-asn: true, policy-priority: '优:2;中:1;备:0.5' }
+BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.google.com/generate_204' }
+BaseLB: &BaseLB { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204' }
+BaseSmart: &BaseSmart { type: smart, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', hidden: true, uselightgbm: true, include-all: true, prefer-asn: true, policy-priority: '优:2;中:1;备:0.5' }
 FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
 FilterSG: &FilterSG '^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$'
 FilterJP: &FilterJP '^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$'
@@ -84,7 +84,7 @@ experimental:
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-ui-name: zashboard
 external-ui: ui
-external-controller: 0.0.0.0:9090
+external-controller: 127.0.0.1:9090
 secret: yyds666
 
 profile:
@@ -93,12 +93,20 @@ profile:
 
 sniffer:
   enable: true
-  override-destination: false
-  force-dns-mapping: true
-  parse-pure-ip: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - 'Mijia Cloud'
+    - '+.push.apple.com'
 
 tun:
-  enable: true
+  enable: false
   stack: mixed
   dns-hijack:
     - 'any:53'
@@ -156,13 +164,13 @@ proxy-groups:
   - { name: 低倍率线路, <<: *BaseFB, proxies: [香港智能, 日本智能, 台湾智能, 狮城智能, 韩国智能, 美国智能, 欧洲智能, 手动选择, 直接连接], icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
 
   # 地理策略层
-  - { name: 香港智能, <<: *BaseSmart, filter: *FilterHK, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
-  - { name: 台湾智能, <<: *BaseSmart, filter: *FilterTW, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
-  - { name: 日本智能, <<: *BaseSmart, filter: *FilterJP, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
-  - { name: 狮城智能, <<: *BaseSmart, filter: *FilterSG, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
-  - { name: 韩国智能, <<: *BaseSmart, filter: *FilterKR, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
-  - { name: 美国智能, <<: *BaseSmart, filter: *FilterUS, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
-  - { name: 欧洲智能, <<: *BaseSmart, filter: *FilterEU, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/European_Union.png }
+  - { name: 香港智能, <<: *BaseSmart, filter: *FilterHK, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
+  - { name: 台湾智能, <<: *BaseSmart, filter: *FilterTW, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
+  - { name: 日本智能, <<: *BaseSmart, filter: *FilterJP, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
+  - { name: 狮城智能, <<: *BaseSmart, filter: *FilterSG, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
+  - { name: 韩国智能, <<: *BaseSmart, filter: *FilterKR, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
+  - { name: 美国智能, <<: *BaseSmart, filter: *FilterUS, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
+  - { name: 欧洲智能, <<: *BaseSmart, filter: *FilterEU, include-all: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/European_Union.png }
 
   # 中转服务层
   # - { name: 中转服务, <<: *BaseLB, use: [优质服务商], filter: 'HK|TW', hidden: true, icon: https://git.theojs.cn/https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin.png }
@@ -227,6 +235,7 @@ rules:
   # 拦截规则
   - RULE-SET,Tracking,REJECT
   - RULE-SET,Advertising,REJECT
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # 阻止 QUIC
 
   # 域名规则
   - RULE-SET,Private,直接连接
