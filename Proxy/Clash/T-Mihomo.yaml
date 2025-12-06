@@ -1,4 +1,4 @@
-# Updated: 2025-12-06 17:16:41
+# Updated: 2025-12-06 18:14:42
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -272,12 +272,11 @@ rules:
 # 规则集行为模板
 BehaviorDN: &BehaviorDN { type: http, behavior: domain, format: mrs, interval: 86400 }
 BehaviorIP: &BehaviorIP { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
-BehaviorYM: &BehaviorYM { type: http, behavior: domain, format: yaml, interval: 86400 }
 
 # 规则提供者
 rule-providers:
-  T-Direct: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.yaml }
-  T-Global: { <<: *BehaviorYM, url: https://dot.theojs.cn/Proxy/Rules/T-Global.yaml }
+  T-Direct: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.mrs }
+  T-Global: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-Global.mrs }
   T-EmbyDirect: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.mrs }
   T-EmbyGlobal: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.mrs }
   # 域名规则
