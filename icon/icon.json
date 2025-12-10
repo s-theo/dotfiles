@@ -16,7 +16,9 @@
     { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
     { "name": "lily", "url": "https://dot.theojs.cn/icon/lily.jpg" },
     { "name": "yunhai", "url": "https://dot.theojs.cn/icon/yunhai.jpg" },
-    { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" }
+    { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" },
+    { "name": "nihao", "url": "https://dot.theojs.cn/icon/nihao.jpg" },
+    { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" }
   ],
   "name": "Emby Icon"
 }
