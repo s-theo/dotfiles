@@ -18,7 +18,8 @@
     { "name": "yunhai", "url": "https://dot.theojs.cn/icon/yunhai.jpg" },
     { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" },
     { "name": "nihao", "url": "https://dot.theojs.cn/icon/nihao.jpg" },
-    { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" }
+    { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" },
+    { "name": "myg", "url": "https://dot.theojs.cn/icon/myg.jpg" }
   ],
   "name": "Emby Icon"
 }
