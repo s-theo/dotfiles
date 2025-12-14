@@ -19,7 +19,11 @@
     { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" },
     { "name": "nihao", "url": "https://dot.theojs.cn/icon/nihao.jpg" },
     { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" },
-    { "name": "myg", "url": "https://dot.theojs.cn/icon/myg.jpg" }
+    { "name": "myg", "url": "https://dot.theojs.cn/icon/myg.jpg" },
+    { "name": "alphatvabs", "url": "https://dot.theojs.cn/icon/alphatvabs.jpg" },
+    { "name": "alphatvboss", "url": "https://dot.theojs.cn/icon/alphatvboss.jpg" },
+    { "name": "alphatvproboss", "url": "https://dot.theojs.cn/icon/alphatvproboss.png" },
+    { "name": "alphatvxboss", "url": "https://dot.theojs.cn/icon/alphatvxboss.jpg" }
   ],
   "name": "Emby Icon"
 }
