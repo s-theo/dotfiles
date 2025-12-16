@@ -1,11 +1,23 @@
 {
-  "description": "by Theo",
+  "description": "@Theo 自用图标库",
   "icons": [
+    { "name": "105", "url": "https://dot.theojs.cn/icon/105.jpg" },
     { "name": "115", "url": "https://dot.theojs.cn/icon/115.png" },
     { "name": "123", "url": "https://dot.theojs.cn/icon/123.png" },
+    { "name": "alphatvboss", "url": "https://dot.theojs.cn/icon/alphatvboss.jpg" },
+    { "name": "alphatvoplus", "url": "https://dot.theojs.cn/icon/alphatvoplus.jpg" },
+    { "name": "alphatvproboss", "url": "https://dot.theojs.cn/icon/alphatvproboss.jpg" },
+    { "name": "alphatvxboss", "url": "https://dot.theojs.cn/icon/alphatvxboss.jpg" },
     { "name": "alidrive", "url": "https://dot.theojs.cn/icon/alidrive.png" },
     { "name": "embydada", "url": "https://dot.theojs.cn/icon/embydada.jpg" },
     { "name": "emos", "url": "https://dot.theojs.cn/icon/emos.jpg" },
+    { "name": "fufu", "url": "https://dot.theojs.cn/icon/fufu.jpg" },
+    { "name": "fufu18", "url": "https://dot.theojs.cn/icon/fufu18.jpg" },
+    { "name": "lily", "url": "https://dot.theojs.cn/icon/lily.jpg" },
+    { "name": "MEntertainment", "url": "https://dot.theojs.cn/icon/MEntertainment.jpg" },
+    { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" },
+    { "name": "myg", "url": "https://dot.theojs.cn/icon/myg.jpg" },
+    { "name": "nihao", "url": "https://dot.theojs.cn/icon/nihao.jpg" },
     { "name": "nijigen", "url": "https://dot.theojs.cn/icon/nijigen.jpg" },
     { "name": "nubebelle", "url": "https://dot.theojs.cn/icon/nubebelle.jpg" },
     { "name": "nya", "url": "https://dot.theojs.cn/icon/nya.jpg" },
@@ -13,21 +25,10 @@
     { "name": "quark", "url": "https://dot.theojs.cn/icon/quark.png" },
     { "name": "younopuls", "url": "https://dot.theojs.cn/icon/younopuls.jpg" },
     { "name": "younopro", "url": "https://dot.theojs.cn/icon/younopro.jpg" },
-    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
-    { "name": "lily", "url": "https://dot.theojs.cn/icon/lily.jpg" },
     { "name": "yunhai", "url": "https://dot.theojs.cn/icon/yunhai.jpg" },
     { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" },
-    { "name": "nihao", "url": "https://dot.theojs.cn/icon/nihao.jpg" },
-    { "name": "moyuge", "url": "https://dot.theojs.cn/icon/moyunge.png" },
-    { "name": "myg", "url": "https://dot.theojs.cn/icon/myg.jpg" },
-    { "name": "alphatvoplus", "url": "https://dot.theojs.cn/icon/alphatvoplus.jpg" },
-    { "name": "alphatvboss", "url": "https://dot.theojs.cn/icon/alphatvboss.jpg" },
-    { "name": "alphatvproboss", "url": "https://dot.theojs.cn/icon/alphatvproboss.jpg" },
-    { "name": "alphatvxboss", "url": "https://dot.theojs.cn/icon/alphatvxboss.jpg" },
-    { "name": "fufu", "url": "https://dot.theojs.cn/icon/fufu.jpg" },
-    { "name": "fufu18", "url": "https://dot.theojs.cn/icon/fufu18.jpg" },
     { "name": "ziluolan", "url": "https://dot.theojs.cn/icon/ziluolan.jpg" },
-    { "name": "MEntertainment", "url": "https://dot.theojs.cn/icon/MEntertainment.jpg" }
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
   ],
-  "name": "Emby Icon"
+  "name": "@Theo EmbyIcon"
 }
