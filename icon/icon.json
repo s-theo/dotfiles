@@ -28,7 +28,9 @@
     { "name": "yunhai", "url": "https://dot.theojs.cn/icon/yunhai.jpg" },
     { "name": "yunhaipron", "url": "https://dot.theojs.cn/icon/yunhaipron.jpg" },
     { "name": "ziluolan", "url": "https://dot.theojs.cn/icon/ziluolan.jpg" },
-    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
+    { "name": "sdx", "url": "https://dot.theojs.cn/icon/sdx.jpg" },
+    { "name": "sdl", "url": "https://dot.theojs.cn/icon/sdl.jpg" }
   ],
   "name": "@Theo EmbyIcon"
 }
