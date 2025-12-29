@@ -30,7 +30,9 @@
     { "name": "ziluolan", "url": "https://dot.theojs.cn/icon/ziluolan.jpg" },
     { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
     { "name": "sdx", "url": "https://dot.theojs.cn/icon/sdx.jpg" },
-    { "name": "sdl", "url": "https://dot.theojs.cn/icon/sdl.jpg" }
+    { "name": "sdl", "url": "https://dot.theojs.cn/icon/sdl.jpg" },
+    { "name": "cookie", "url": "https://dot.theojs.cn/icon/cookie.jpg" },
+    { "name": "zongying", "url": "https://dot.theojs.cn/icon/zongying.jpg" }
   ],
   "name": "@Theo EmbyIcon"
 }
