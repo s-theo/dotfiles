@@ -1,4 +1,4 @@
-# Updated: 2025-12-14 23:08:03
+# Updated: 2026-01-12 22:14:42
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -224,7 +224,7 @@ rules:
   # 拦截规则
   - RULE-SET,Tracking,REJECT
   - RULE-SET,Advertising,REJECT
-  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # 阻止 QUIC
+  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOIP,CN)))),REJECT # 阻止海外 QUIC
 
   # 域名规则
   - RULE-SET,LocationDKS,抖快书定位
