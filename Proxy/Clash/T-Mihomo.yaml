@@ -1,4 +1,4 @@
-# Updated: 2026-01-28 15:40:46
+# Updated: 2026-02-06 11:15:11
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -61,7 +61,6 @@ tcp-concurrent: true
 log-level: warning
 bind-address: '*'
 find-process-mode: 'always'
-global-client-fingerprint: chrome
 keep-alive-interval: 15
 keep-alive-idle: 600
 
@@ -264,7 +263,7 @@ rules:
   - RULE-SET,StreamingIP,国际媒体,no-resolve
   - RULE-SET,GoogleIP,谷歌服务,no-resolve
   - RULE-SET,ProxyIP,国外流量,no-resolve
-  - RULE-SET,ChinaIP,国内流量,no-resolve
+  - RULE-SET,ChinaIP,国内流量
   - DST-PORT,22,狮城策略
 
   # 兜底规则
