@@ -40,7 +40,9 @@
     { "name": "yunhai_emby", "url": "https://dot.theojs.cn/icon/yunhai_emby.png" },
     { "name": "yunhai_porn", "url": "https://dot.theojs.cn/icon/yunhai_porn.png" },
     { "name": "yuanwei", "url": "https://dot.theojs.cn/icon/yuanwei.png" },
-    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" }
+    { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
+    { "name": "kiki", "url": "https://dot.theojs.cn/icon/kiki.jpg" },
+    { "name": "zhezhi", "url": "https://dot.theojs.cn/icon/zhezhi.jpg" }
   ],
   "name": "@Theo EmbyIcon"
 }
