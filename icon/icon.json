@@ -42,7 +42,8 @@
     { "name": "yuanwei", "url": "https://dot.theojs.cn/icon/yuanwei.png" },
     { "name": "zspace", "url": "https://dot.theojs.cn/icon/zspace.png" },
     { "name": "kiki", "url": "https://dot.theojs.cn/icon/kiki.jpg" },
-    { "name": "zhezhi", "url": "https://dot.theojs.cn/icon/zhezhi.jpg" }
+    { "name": "zhezhi", "url": "https://dot.theojs.cn/icon/zhezhi.jpg" },
+    { "name": "xique", "url": "https://dot.theojs.cn/icon/xique.jpg" }
   ],
   "name": "@Theo EmbyIcon"
 }
