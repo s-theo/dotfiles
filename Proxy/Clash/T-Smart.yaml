@@ -1,4 +1,4 @@
-# Updated: 2026-04-15 13:41:18
+# Updated: 2026-05-05 12:51:38
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -46,7 +46,7 @@ external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download
 # TUN配置
 tun:
   enable: true # 网卡模式  是否启用 TUN 虚拟网卡模式
-  stack: system # 协议类型  网络栈：system（系统栈）/ gvisor（内置用户态栈）/ mixed（混合）
+  stack: mixed # 协议类型  网络栈：system（系统栈）/ gvisor（内置用户态栈）/ mixed（混合）
   dns-hijack: [0.0.0.0:53] # 劫持请求  劫持所有 UDP/TCP 53 端口的 DNS 请求
   auto-detect-interface: true # 自动出口  自动识别默认出口网络接口 （仅内核模式有效）
   auto-route: true # 自动路由  自动添加系统路由表      （仅内核模式有效）
