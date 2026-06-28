@@ -9,17 +9,17 @@ importers:
   .:
     devDependencies:
       lint-staged:
-        specifier: ^17.0.3
-        version: 17.0.3
+        specifier: ^17.0.8
+        version: 17.0.8
       prettier:
-        specifier: 3.8.3
-        version: 3.8.3
+        specifier: 3.9.1
+        version: 3.9.1
       prettier-plugin-packagejson:
         specifier: ^3.0.2
-        version: 3.0.2(prettier@3.8.3)
+        version: 3.0.2(prettier@3.9.1)
       prettier-plugin-sort-json:
         specifier: ^4.2.0
-        version: 4.2.0(prettier@3.8.3)
+        version: 4.2.0(prettier@3.9.1)
       simple-git-hooks:
         specifier: ^2.13.1
         version: 2.13.1
@@ -88,8 +88,8 @@ packages:
     resolution: {integrity: sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==}
     engines: {node: '>=12'}
 
-  lint-staged@17.0.3:
-    resolution: {integrity: sha512-wnvMRhzC3GNpjixxleiG+pAW09dHTUgBCjMS7XouAg5E7wKUc8YdfogpF7zIgvXKDbH+452O6+XpnKm6V67rPw==}
+  lint-staged@17.0.8:
+    resolution: {integrity: sha512-B2P/d+jVW0UXOQ0MVMLrB/9ydA1P+zz6jYfdrbbEd9ur3S2rcbduFWKiUCC02Sm5hbC8nrm7y24WuYMG54HfxA==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -127,8 +127,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  prettier@3.8.3:
-    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+  prettier@3.9.1:
+    resolution: {integrity: sha512-ppiDo2CSwexck1eyZUwJHg/N3nf1+6IRCv7W/VJ5vaLnVCmB7+3CdRfMwoCHBBX6xTrREDTksZ4OZl5SSf4zXA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -184,8 +184,8 @@ packages:
     resolution: {integrity: sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==}
     engines: {node: '>=12'}
 
-  tinyexec@1.1.2:
-    resolution: {integrity: sha512-dAqSqE/RabpBKI8+h26GfLq6Vb3JVXs30XYQjdMjaj/c2tS8IYYMbIzP599KtRj7c57/wYApb3QjgRgXmrCukA==}
+  tinyexec@1.2.4:
+    resolution: {integrity: sha512-SHf/r48b7vOrjve9PxJo3MN5v5yuyjHvdUcrQffT3WXMUfnGmHDVbC4k3sHJaJTgZCwpUplIaAo5ANtMyp3YHg==}
     engines: {node: '>=18'}
 
   tinyglobby@0.2.16:
@@ -200,8 +200,8 @@ packages:
     resolution: {integrity: sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==}
     engines: {node: '>=18'}
 
-  yaml@2.8.4:
-    resolution: {integrity: sha512-ml/JPOj9fOQK8RNnWojA67GbZ0ApXAUlN2UQclwv2eVgTgn7O9gg9o7paZWKMp4g0H3nTLtS9LVzhkpOFIKzog==}
+  yaml@2.9.0:
+    resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -248,14 +248,14 @@ snapshots:
 
   is-plain-obj@4.1.0: {}
 
-  lint-staged@17.0.3:
+  lint-staged@17.0.8:
     dependencies:
       listr2: 10.2.1
       picomatch: 4.0.4
       string-argv: 0.3.2
-      tinyexec: 1.1.2
+      tinyexec: 1.2.4
     optionalDependencies:
-      yaml: 2.8.4
+      yaml: 2.9.0
 
   listr2@10.2.1:
     dependencies:
@@ -281,17 +281,17 @@ snapshots:
 
   picomatch@4.0.4: {}
 
-  prettier-plugin-packagejson@3.0.2(prettier@3.8.3):
+  prettier-plugin-packagejson@3.0.2(prettier@3.9.1):
     dependencies:
       sort-package-json: 3.6.1
     optionalDependencies:
-      prettier: 3.8.3
+      prettier: 3.9.1
 
-  prettier-plugin-sort-json@4.2.0(prettier@3.8.3):
+  prettier-plugin-sort-json@4.2.0(prettier@3.9.1):
     dependencies:
-      prettier: 3.8.3
+      prettier: 3.9.1
 
-  prettier@3.8.3: {}
+  prettier@3.9.1: {}
 
   restore-cursor@5.1.0:
     dependencies:
@@ -345,7 +345,7 @@ snapshots:
     dependencies:
       ansi-regex: 6.2.2
 
-  tinyexec@1.1.2: {}
+  tinyexec@1.2.4: {}
 
   tinyglobby@0.2.16:
     dependencies:
@@ -364,5 +364,5 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.2.0
 
-  yaml@2.8.4:
+  yaml@2.9.0:
     optional: true
