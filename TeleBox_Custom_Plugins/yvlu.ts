@@ -4,13 +4,13 @@ import axios from 'axios'
 import _ from 'lodash'
 import { getPrefixes } from '@utils/pluginManager'
 import { Plugin } from '@utils/pluginBase'
-import { Api } from 'telegram'
+import { Api } from 'teleproto'
 import { createDirectoryInAssets, createDirectoryInTemp } from '@utils/pathHelpers'
 import * as path from 'path'
 import * as fs from 'fs'
 import { getGlobalClient } from '@utils/globalClient'
 import { reviveEntities } from '@utils/tlRevive'
-import { CustomFile } from 'telegram/client/uploads.js'
+import { CustomFile } from 'teleproto/client/uploads.js'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
 
@@ -44,7 +44,10 @@ function isTgsFormat(buffer: Buffer): boolean {
 }
 
 // 检查 TGS 转换依赖
-async function checkTgsDependencies(): Promise<{ ok: boolean; message: string }> {
+async function checkTgsDependencies(): Promise<{
+  ok: boolean
+  message: string
+}> {
   try {
     await execFileAsync('python3', ['-c', 'from rlottie_python import LottieAnimation'])
   } catch (e) {
@@ -413,7 +416,9 @@ class YvluPlugin extends Plugin {
               try {
                 const buffer = await client.downloadProfilePhoto(sender as any, { isBig: false })
                 if (Buffer.isBuffer(buffer) && buffer.length > 0) {
-                  photo = { url: `data:image/jpeg;base64,${buffer.toString('base64')}` }
+                  photo = {
+                    url: `data:image/jpeg;base64,${buffer.toString('base64')}`
+                  }
                 }
               } catch (e) {}
             }
@@ -497,7 +502,9 @@ class YvluPlugin extends Plugin {
                   }
 
                   const mime = finalMime || (mediaTypeForQuote === 'sticker' ? 'image/webp' : 'image/jpeg')
-                  media = { url: `data:${mime};base64,${finalBuffer.toString('base64')}` }
+                  media = {
+                    url: `data:${mime};base64,${finalBuffer.toString('base64')}`
+                  }
                 }
               }
             } catch (e) {
@@ -556,7 +563,12 @@ class YvluPlugin extends Plugin {
                 fs.writeFileSync(webmPath, imageBuffer)
                 await client.sendFile(msg.peerId, {
                   file: webmPath,
-                  attributes: [new Api.DocumentAttributeSticker({ alt: '📝', stickerset: new Api.InputStickerSetEmpty() })],
+                  attributes: [
+                    new Api.DocumentAttributeSticker({
+                      alt: '📝',
+                      stickerset: new Api.InputStickerSetEmpty()
+                    })
+                  ],
                   replyTo: replied?.id
                 })
               } finally {
@@ -569,7 +581,19 @@ class YvluPlugin extends Plugin {
               await client.sendFile(msg.peerId, {
                 file,
                 forceDocument: false,
-                attributes: [new Api.DocumentAttributeSticker({ alt: '📝', stickerset: new Api.InputStickerSetEmpty() }), new Api.DocumentAttributeImageSize({ w: dimensions.width, h: dimensions.height }), new Api.DocumentAttributeFilename({ fileName: `sticker.${imageExt}` })],
+                attributes: [
+                  new Api.DocumentAttributeSticker({
+                    alt: '📝',
+                    stickerset: new Api.InputStickerSetEmpty()
+                  }),
+                  new Api.DocumentAttributeImageSize({
+                    w: dimensions.width,
+                    h: dimensions.height
+                  }),
+                  new Api.DocumentAttributeFilename({
+                    fileName: `sticker.${imageExt}`
+                  })
+                ],
                 replyTo: replied?.id
               })
             }
@@ -603,7 +627,10 @@ class YvluPlugin extends Plugin {
       }
       this.config!.stickerSetShortName = newName
       await this.saveConfig()
-      await msg.edit({ text: `✅ 贴纸包已设为: <code>${newName}</code>`, parseMode: 'html' })
+      await msg.edit({
+        text: `✅ 贴纸包已设为: <code>${newName}</code>`,
+        parseMode: 'html'
+      })
     } else {
       await msg.edit({
         text: `<b>当前配置:</b>\n贴纸包: ${this.config?.stickerSetShortName || '未设置'}\nAPI: ${this.config?.apiUrl || '默认'}\n\n使用 <code>${commandName} config sticker [name]</code> 修改`,
@@ -616,7 +643,10 @@ class YvluPlugin extends Plugin {
     await this.loadConfig()
     const sub = args[0]
     if (!sub) {
-      await msg.edit({ text: `当前API: <code>${this.config?.apiUrl || '默认'}</code>`, parseMode: 'html' })
+      await msg.edit({
+        text: `当前API: <code>${this.config?.apiUrl || '默认'}</code>`,
+        parseMode: 'html'
+      })
     } else if (sub === 'reset') {
       this.config!.apiUrl = ''
       await this.saveConfig()
@@ -627,7 +657,10 @@ class YvluPlugin extends Plugin {
       if (!url.includes('/generate')) url = url.replace(/\/$/, '') + '/generate.webp'
       this.config!.apiUrl = url
       await this.saveConfig()
-      await msg.edit({ text: `✅ API已设为: <code>${url}</code>`, parseMode: 'html' })
+      await msg.edit({
+        text: `✅ API已设为: <code>${url}</code>`,
+        parseMode: 'html'
+      })
     }
   }
 
@@ -635,7 +668,9 @@ class YvluPlugin extends Plugin {
     try {
       await this.loadConfig()
       if (!this.config?.stickerSetShortName) {
-        await msg.edit({ text: `❌ 未配置贴纸包!\n请先设置: ${commandName} config sticker <名称>` })
+        await msg.edit({
+          text: `❌ 未配置贴纸包!\n请先设置: ${commandName} config sticker <名称>`
+        })
         return
       }
 
@@ -676,7 +711,9 @@ class YvluPlugin extends Plugin {
       try {
         const stickerSet = await client.invoke(
           new Api.messages.GetStickerSet({
-            stickerset: new Api.InputStickerSetShortName({ shortName: this.config.stickerSetShortName }),
+            stickerset: new Api.InputStickerSetShortName({
+              shortName: this.config.stickerSetShortName
+            }),
             hash: 0
           })
         )
@@ -694,8 +731,13 @@ class YvluPlugin extends Plugin {
       if (isSticker && documentToAdd) {
         await client.invoke(
           new Api.stickers.AddStickerToSet({
-            stickerset: new Api.InputStickerSetShortName({ shortName: this.config.stickerSetShortName }),
-            sticker: new Api.InputStickerSetItem({ document: documentToAdd, emoji: '📝' })
+            stickerset: new Api.InputStickerSetShortName({
+              shortName: this.config.stickerSetShortName
+            }),
+            sticker: new Api.InputStickerSetItem({
+              document: documentToAdd,
+              emoji: '📝'
+            })
           })
         )
       } else if (isPhoto) {
@@ -710,13 +752,20 @@ class YvluPlugin extends Plugin {
         })
         await client.invoke(
           new Api.stickers.AddStickerToSet({
-            stickerset: new Api.InputStickerSetShortName({ shortName: this.config.stickerSetShortName }),
-            sticker: new Api.InputStickerSetItem({ document: file as any, emoji: '📝' })
+            stickerset: new Api.InputStickerSetShortName({
+              shortName: this.config.stickerSetShortName
+            }),
+            sticker: new Api.InputStickerSetItem({
+              document: file as any,
+              emoji: '📝'
+            })
           })
         )
       }
 
-      await msg.edit({ text: `✅ 已成功保存到贴纸包!\nt.me/addstickers/${this.config.stickerSetShortName}` })
+      await msg.edit({
+        text: `✅ 已成功保存到贴纸包!\nt.me/addstickers/${this.config.stickerSetShortName}`
+      })
     } catch (error: any) {
       console.error('保存失败:', error)
       await msg.edit({ text: `❌ 保存失败: ${error.message || error}` })
@@ -749,11 +798,18 @@ class YvluPlugin extends Plugin {
           userId: me,
           title: this.config!.stickerSetShortName,
           shortName: this.config!.stickerSetShortName,
-          stickers: [new Api.InputStickerSetItem({ document: firstSticker, emoji: '📝' })]
+          stickers: [
+            new Api.InputStickerSetItem({
+              document: firstSticker,
+              emoji: '📝'
+            })
+          ]
         })
       )
 
-      await msg.edit({ text: `✅ 已创建并保存!\nt.me/addstickers/${this.config!.stickerSetShortName}` })
+      await msg.edit({
+        text: `✅ 已创建并保存!\nt.me/addstickers/${this.config!.stickerSetShortName}`
+      })
     } catch (error: any) {
       console.error('创建失败:', error)
       await msg.edit({ text: `❌ 创建失败: ${error.message || error}` })
