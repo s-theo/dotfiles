@@ -1,4 +1,4 @@
-# Updated: 2026-06-28 13:42:24
+# Updated: 2026-07-07 22:50:39
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -165,6 +165,7 @@ rules:
   - RULE-SET,add_direct_domain,国内直连 # 直连域名
   - RULE-SET,cn_domain,国内直连 # 中国域名
   - RULE-SET,cn_ip,国内直连,no-resolve # 中国IP
+  - DST-PORT,22,新加坡-自动,no-resolve
   - MATCH,漏网之鱼 # 兜底规则
 
 # ███████████████████████████ 规则来源 ███████████████████████████
