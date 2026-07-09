@@ -1,12 +1,12 @@
+import { createDirectoryInAssets } from '@utils/pathHelpers'
 import { Plugin } from '@utils/pluginBase'
 import { getPrefixes } from '@utils/pluginManager'
-import { Api } from 'teleproto'
-import * as fs from 'fs/promises'
 import axios from 'axios'
 import { exec } from 'child_process'
-import { promisify } from 'util'
+import * as fs from 'fs/promises'
 import path from 'path'
-import { createDirectoryInAssets } from '@utils/pathHelpers'
+import { Api } from 'teleproto'
+import { promisify } from 'util'
 
 const prefixes = getPrefixes()
 const mainPrefix = prefixes[0]

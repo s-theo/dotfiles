@@ -10,13 +10,13 @@
  * 3. 回复某条消息 + .dme -r : 防撤回删除从该消息开始的所有后续消息（仅限自己的）
  */
 
-import { TelegramClient, Api } from 'teleproto'
-import { getGlobalClient } from '@utils/globalClient'
 import { getEntityWithHash } from '@utils/entityHelpers'
+import { getGlobalClient } from '@utils/globalClient'
 import { Plugin } from '@utils/pluginBase'
-import { CustomFile } from 'teleproto/client/uploads'
 import * as fs from 'fs'
 import * as path from 'path'
+import { Api, TelegramClient } from 'teleproto'
+import { CustomFile } from 'teleproto/client/uploads'
 
 // 常量配置
 const CONFIG = {
