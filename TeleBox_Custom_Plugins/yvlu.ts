@@ -1,17 +1,18 @@
 // YVLU Plugin - 生成文字语录贴纸 (TGS + 自定义文字 + API配置 完整版)
 //@ts-nocheck
-import axios from 'axios'
-import _ from 'lodash'
-import { getPrefixes } from '@utils/pluginManager'
-import { Plugin } from '@utils/pluginBase'
-import { Api } from 'teleproto'
-import { createDirectoryInAssets, createDirectoryInTemp } from '@utils/pathHelpers'
-import * as path from 'path'
-import * as fs from 'fs'
+
 import { getGlobalClient } from '@utils/globalClient'
+import { createDirectoryInAssets, createDirectoryInTemp } from '@utils/pathHelpers'
+import { Plugin } from '@utils/pluginBase'
+import { getPrefixes } from '@utils/pluginManager'
 import { reviveEntities } from '@utils/tlRevive'
-import { CustomFile } from 'teleproto/client/uploads.js'
+import axios from 'axios'
 import { execFile } from 'child_process'
+import * as fs from 'fs'
+import _ from 'lodash'
+import * as path from 'path'
+import { Api } from 'teleproto'
+import { CustomFile } from 'teleproto/client/uploads.js'
 import { promisify } from 'util'
 
 const execFileAsync = promisify(execFile)

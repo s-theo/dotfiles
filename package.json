@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "format": "prettier --experimental-cli --write .",
-    "format:cheak": "prettier --experimental-cli --check .",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
     "mrs": "./Tools/mrs.sh",
     "pull": "git fetch origin && git reset --hard origin/main"
   },
@@ -9,13 +9,11 @@
     "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "prettier --experimental-cli --ignore-unknown --write {files}"
+    "*": "biome check --write --no-errors-on-unmatched"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.3",
     "lint-staged": "^17.0.8",
-    "prettier": "3.9.1",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "prettier-plugin-sort-json": "^4.2.0",
     "simple-git-hooks": "^2.13.1"
   },
   "packageManager": "pnpm@11.9.0"
