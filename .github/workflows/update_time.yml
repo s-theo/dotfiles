@@ -13,61 +13,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Set up Git
+      - name: Configure Git and date
         run: |
           git config user.name "vercel"
           git config user.email "vercel[bot]@users.noreply.github.com"
-
-      - name: Get current date
-        id: current_date
-        run: echo "DATE=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+          echo "DATE=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" >> "$GITHUB_ENV"
 
       - name: Update files with commit info
         run: |
-          files_to_update="Proxy/**/*"  
+          for file in Proxy/**/*; do
+            [[ -f "$file" ]] || continue
 
-          for file in $files_to_update; do 
-            if [ -f "$file" ]; then 
-              if [[ "$file" == *.mrs ]]; then
-                echo "跳过 $file"
-                continue
-              fi
-
-              if git diff HEAD~1 HEAD -- "$file" | grep -q "$file"; then
-                original_content=$(cat "$file") 
-                updated_content=$(echo "$original_content" | sed -E 's/^# Updated: .*/# Updated: '"${{ env.DATE }}"'/')  
-
-                echo "$updated_content" > "$file.tmp" 
-
-                if ! cmp -s "$file" "$file.tmp"; then
-                  mv "$file.tmp" "$file" 
-                else
-                  rm "$file.tmp"
-                fi
-              else
-                echo "$file has no changes in the last commit."
-              fi
+            if [[ "$file" == *.mrs ]]; then
+              echo "跳过 $file"
+              continue
             fi
+
+            if git diff --quiet HEAD^ HEAD -- "$file"; then
+              echo "$file has no changes in the last commit."
+              continue
+            fi
+
+            sed -i -E "s/^# Updated: .*/# Updated: $DATE/" "$file"
           done
 
       - name: Commit and push changes
         run: |
           git add Proxy/**/*
-          if ! git diff --quiet; then
-            git commit -m "${{ env.DATE }}"
-          fi
-          git reset --soft HEAD^
-          git commit -m "${{ env.DATE }}"
-          git push -f origin main
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit --amend --reset-author -m "$DATE"
+          git push --force origin main
 
       - name: Translate job status to Chinese
-        id: translate-status
         run: |
           case "${{ job.status }}" in
             success) translated_status="成功" ;;
