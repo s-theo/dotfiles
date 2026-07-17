@@ -23,11 +23,14 @@ LOCK_HELD=0
 TEMP_DIR=""
 REMOTE_VERSION=""
 LOCAL_VERSION=""
+LOCAL_INFO=""
+LOCAL_INFO_LOADED=0
 HAS_UPDATE="unknown"
 MODE="menu"
 ASSUME_YES=0
 DEBUG=0
 INTERACTIVE=0
+CPU_FLAGS=""
 
 if [ -t 1 ]; then
     RED="$(printf '\033[0;31m')"
@@ -78,10 +81,9 @@ Mihomo Smart 内核管理工具 v${SCRIPT_VERSION}
   -u, --update              检查并更新；需要交互确认
   -a, --auto                自动检查并更新，适合计划任务
   -k, --check               仅检查本地与远程版本
-  -r, --rollback            回滚到上一版本
   -c, --changelog           查看 OpenClash Mihomo 更新日志
-  -p, --platform PLATFORM   指定 OpenClash 平台，如 linux-amd64-v3
-  -y, --yes                 跳过更新/回滚确认
+  -p, --platform PLATFORM   指定平台；linux-amd64 表示按 CPU 自动选择
+  -y, --yes                 跳过更新确认
   -d, --debug               输出调试信息
   -h, --help                显示帮助
   无参数                     启动交互菜单
@@ -106,12 +108,6 @@ cleanup() {
 
 trap cleanup 0
 trap 'exit 130' HUP INT TERM
-
-clear_screen() {
-    if [ -t 1 ] && [ -n "${TERM:-}" ] && command -v clear >/dev/null 2>&1; then
-        clear
-    fi
-}
 
 pause() {
     if [ -t 0 ]; then
@@ -191,7 +187,7 @@ release_lock() {
 
 require_root() {
     if [ "$(id -u)" -ne 0 ]; then
-        error "更新和回滚必须以 root 身份运行。"
+        error "更新必须以 root 身份运行。"
         return 1
     fi
 }
@@ -230,12 +226,19 @@ download_file() {
     _download_url="$1"
     _download_target="$2"
     _download_timeout="${3:-300}"
+    _show_progress="${4:-0}"
     _download_url="$(with_github_proxy "$_download_url")"
 
     debug "下载: $_download_url"
-    curl -fsSL --retry 3 --retry-delay 2 \
-        --connect-timeout 15 --max-time "$_download_timeout" \
-        -o "$_download_target" "$_download_url"
+    if [ "$_show_progress" -eq 1 ] && [ "$INTERACTIVE" -eq 1 ] && [ -t 1 ]; then
+        curl -fL --progress-bar --retry 3 --retry-delay 2 \
+            --connect-timeout 15 --max-time "$_download_timeout" \
+            -o "$_download_target" "$_download_url"
+    else
+        curl -fsSL --retry 3 --retry-delay 2 \
+            --connect-timeout 15 --max-time "$_download_timeout" \
+            -o "$_download_target" "$_download_url"
+    fi
 }
 
 configured_platform() {
@@ -249,30 +252,107 @@ configured_platform() {
     return 1
 }
 
+load_cpu_flags() {
+    if [ -n "$CPU_FLAGS" ]; then
+        return 0
+    fi
+    if [ ! -r /proc/cpuinfo ]; then
+        return 1
+    fi
+
+    CPU_FLAGS="$(
+        awk -F: '
+            /^[[:space:]]*(flags|Features)[[:space:]]*:/ {
+                gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+                print " " $2 " "
+                exit
+            }
+        ' /proc/cpuinfo
+    )"
+    [ -n "$CPU_FLAGS" ]
+}
+
+cpu_has_flag() {
+    load_cpu_flags || return 1
+    case "$CPU_FLAGS" in
+        *" $1 "*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+supports_amd64_v2() {
+    for _required_flag in cx16 lahf_lm popcnt pni sse4_1 sse4_2 ssse3; do
+        cpu_has_flag "$_required_flag" || return 1
+    done
+}
+
+supports_amd64_v3() {
+    supports_amd64_v2 || return 1
+    for _required_flag in avx avx2 bmi1 bmi2 f16c fma movbe xsave; do
+        cpu_has_flag "$_required_flag" || return 1
+    done
+    cpu_has_flag abm || cpu_has_flag lzcnt
+}
+
+recommended_amd64_platform() {
+    if supports_amd64_v3; then
+        printf '%s\n' "linux-amd64-v3"
+    elif supports_amd64_v2; then
+        printf '%s\n' "linux-amd64-v2"
+    else
+        printf '%s\n' "linux-amd64-compatible"
+    fi
+}
+
+normalize_amd64_platform() {
+    case "$PLATFORM" in
+        linux-amd64)
+            _recommended_platform="$(recommended_amd64_platform)"
+            warn "linux-amd64 将按 CPU 自动选择，当前使用：$_recommended_platform"
+            PLATFORM="$_recommended_platform"
+            ;;
+        linux-amd64-v3)
+            if ! supports_amd64_v3; then
+                _recommended_platform="$(recommended_amd64_platform)"
+                warn "当前 CPU 不支持 AMD64 v3，已自动改用：$_recommended_platform"
+                PLATFORM="$_recommended_platform"
+            fi
+            ;;
+        linux-amd64-v2)
+            if ! supports_amd64_v2; then
+                warn "当前 CPU 不支持 AMD64 v2，已自动改用：linux-amd64-compatible"
+                PLATFORM="linux-amd64-compatible"
+            fi
+            ;;
+    esac
+}
+
 choose_amd64_platform() {
-    _default_platform="linux-amd64"
+    _default_platform="$(recommended_amd64_platform)"
 
     if [ "$INTERACTIVE" -ne 1 ]; then
         PLATFORM="$_default_platform"
-        return
+        return 0
     fi
 
     printf '\n检测到 x86_64，请选择 OpenClash Smart 内核平台:\n'
     printf '%s\n' \
-        "1. linux-amd64（默认，兼容性优先）" \
-        "2. linux-amd64-v3" \
-        "3. linux-amd64-v2" \
-        "4. linux-amd64-v1" \
-        "5. linux-amd64-compatible"
+        "1. $_default_platform（自动推荐，默认）" \
+        "2. linux-amd64-compatible（兼容性优先）" \
+        "3. linux-amd64-v1" \
+        "4. linux-amd64-v2" \
+        "5. linux-amd64-v3"
     printf '请选择 [1-5]（默认 1）: '
     read -r _amd64_choice
     case "$_amd64_choice" in
-        2) PLATFORM="linux-amd64-v3" ;;
-        3) PLATFORM="linux-amd64-v2" ;;
-        4) PLATFORM="linux-amd64-v1" ;;
-        5) PLATFORM="linux-amd64-compatible" ;;
+        2) PLATFORM="linux-amd64-compatible" ;;
+        3) PLATFORM="linux-amd64-v1" ;;
+        4) PLATFORM="linux-amd64-v2" ;;
+        5) PLATFORM="linux-amd64-v3" ;;
         *) PLATFORM="$_default_platform" ;;
     esac
+
+    normalize_amd64_platform
 }
 
 detect_platform() {
@@ -284,6 +364,7 @@ detect_platform() {
                 return 1
                 ;;
         esac
+        normalize_amd64_platform || return 1
         info "使用指定平台：$PLATFORM"
         return 0
     fi
@@ -291,13 +372,14 @@ detect_platform() {
     _configured_platform="$(configured_platform 2>/dev/null || true)"
     if [ -n "$_configured_platform" ]; then
         PLATFORM="$_configured_platform"
+        normalize_amd64_platform || return 1
         info "使用 OpenClash 已配置平台：$PLATFORM"
         return 0
     fi
 
     _machine="$(uname -m)"
     case "$_machine" in
-        x86_64|amd64) choose_amd64_platform ;;
+        x86_64|amd64) choose_amd64_platform || return 1 ;;
         i386|i486|i586|i686|x86) PLATFORM="linux-386" ;;
         aarch64|arm64) PLATFORM="linux-arm64" ;;
         armv7l|armv7) PLATFORM="linux-armv7" ;;
@@ -323,17 +405,23 @@ detect_platform() {
 }
 
 get_local_version() {
-    LOCAL_VERSION=""
-    if [ -x "$CORE_PATH" ]; then
-        LOCAL_VERSION="$("$CORE_PATH" -v 2>/dev/null | awk 'NR == 1 { print $3; exit }')"
+    if [ "$LOCAL_INFO_LOADED" -eq 1 ]; then
+        return 0
     fi
+
+    LOCAL_VERSION=""
+    LOCAL_INFO=""
+    if [ -x "$CORE_PATH" ]; then
+        LOCAL_INFO="$("$CORE_PATH" -v 2>/dev/null | sed -n '1p')"
+        LOCAL_VERSION="$(printf '%s\n' "$LOCAL_INFO" | awk 'NR == 1 { print $3; exit }')"
+    fi
+    LOCAL_INFO_LOADED=1
 }
 
 show_current_info() {
     get_local_version
     if [ -x "$CORE_PATH" ]; then
-        _current_full="$("$CORE_PATH" -v 2>/dev/null | sed -n '1p')"
-        printf '当前内核: %s\n' "${_current_full:-无法读取版本}"
+        printf '当前内核: %s\n' "${LOCAL_INFO:-无法读取版本}"
         printf '内核路径: %s\n' "$CORE_PATH"
     elif [ -f "$CORE_PATH" ]; then
         printf '当前内核: 已安装但不可执行\n'
@@ -348,6 +436,7 @@ fetch_remote_version() {
     init_temp || return 1
     _version_file="${TEMP_DIR}/core_version"
 
+    info "正在获取 OpenClash 远程版本..."
     if ! download_file "$VERSION_URL" "$_version_file" 30; then
         error "无法获取 OpenClash core_version。"
         return 1
@@ -394,8 +483,24 @@ validate_downloaded_core() {
     fi
 
     chmod 755 "$_candidate" || return 1
-    _candidate_version="$("$_candidate" -v 2>/dev/null | awk 'NR == 1 { print $3; exit }')"
-    _candidate_full="$("$_candidate" -v 2>/dev/null | sed -n '1p')"
+    _candidate_output="$("$_candidate" -v 2>&1)"
+    _candidate_status=$?
+    _candidate_full="$(printf '%s\n' "$_candidate_output" | sed -n '1p')"
+
+    if [ "$_candidate_status" -ne 0 ]; then
+        error "下载的内核无法在当前设备运行（平台: $PLATFORM，退出码: $_candidate_status）。"
+        if [ -n "$_candidate_full" ]; then
+            error "内核输出: $_candidate_full"
+        fi
+        case "$_candidate_output" in
+            *"v3 microarchitecture support"*)
+                error "当前 CPU 不支持该 v3 产物，请改用 linux-amd64-v2 或 compatible。"
+                ;;
+        esac
+        return 1
+    fi
+
+    _candidate_version="$(printf '%s\n' "$_candidate_output" | awk 'NR == 1 { print $3; exit }')"
 
     case "$_candidate_full" in
         *[Ss]mart*) ;;
@@ -417,11 +522,14 @@ restart_openclash() {
     "$SERVICE_PATH" restart
 }
 
-restore_after_failed_restart() {
+restore_previous_core() {
     _had_previous="$1"
 
-    warn "OpenClash 重启失败，正在自动恢复原内核..."
-    if [ "$_had_previous" -eq 1 ] && [ -f "$BACKUP_PATH" ]; then
+    if [ "$_had_previous" -eq 1 ]; then
+        if [ ! -f "$BACKUP_PATH" ]; then
+            error "找不到更新前的临时备份：$BACKUP_PATH"
+            return 1
+        fi
         _restore_stage="${CORE_DIR}/.clash_meta.restore.$$"
         cp -p "$BACKUP_PATH" "$_restore_stage" &&
             chmod 4755 "$_restore_stage" &&
@@ -430,11 +538,32 @@ restore_after_failed_restart() {
                 error "自动恢复原内核失败，请手动恢复：$BACKUP_PATH"
                 return 1
             }
-        restart_openclash >/dev/null 2>&1 || true
-        error "更新已回滚，原内核已恢复。"
+        rm -f "$BACKUP_PATH" || warn "原内核已恢复，但临时备份删除失败：$BACKUP_PATH"
     else
         rm -f "$CORE_PATH"
-        error "更新前没有旧内核，已移除无法启动的新内核。"
+    fi
+}
+
+rollback_failed_update() {
+    _had_previous="$1"
+    _failure_reason="$2"
+
+    warn "$_failure_reason，正在自动恢复..."
+    if ! restore_previous_core "$_had_previous"; then
+        return 1
+    fi
+
+    if [ "$_had_previous" -eq 1 ]; then
+        if restart_openclash >/dev/null 2>&1; then
+            error "更新失败，原内核已恢复并重新启动 OpenClash。"
+        else
+            error "原内核已恢复，但 OpenClash 重新启动仍然失败，请检查服务日志。"
+        fi
+    else
+        LOCAL_VERSION=""
+        LOCAL_INFO=""
+        LOCAL_INFO_LOADED=1
+        error "更新前没有旧内核，已移除未成功安装的新内核。"
     fi
     return 1
 }
@@ -462,18 +591,22 @@ install_downloaded_core() {
         mv -f "$_install_stage" "$CORE_PATH" || {
             rm -f "$_install_stage"
             error "原子安装新内核失败。"
+            rollback_failed_update "$_had_previous" "新内核安装失败"
             return 1
         }
 
     if ! restart_openclash; then
-        restore_after_failed_restart "$_had_previous"
+        rollback_failed_update "$_had_previous" "OpenClash 重启失败"
         return 1
     fi
 
-    success "Smart 内核更新成功：$REMOTE_VERSION"
-    if [ "$_had_previous" -eq 1 ]; then
-        printf '上一版本备份：%s\n' "$BACKUP_PATH"
+    if [ -f "$BACKUP_PATH" ]; then
+        rm -f "$BACKUP_PATH" || warn "更新成功，但临时备份删除失败：$BACKUP_PATH"
     fi
+    LOCAL_VERSION="$_candidate_version"
+    LOCAL_INFO="$_candidate_full"
+    LOCAL_INFO_LOADED=1
+    success "Smart 内核更新成功：$REMOTE_VERSION"
 }
 
 perform_update_locked() {
@@ -495,7 +628,7 @@ perform_update_locked() {
     _archive_url="$(core_archive_url)"
 
     info "正在下载 Smart 内核..."
-    download_file "$_archive_url" "$_archive" 300 || {
+    download_file "$_archive_url" "$_archive" 300 1 || {
         error "内核下载失败：$_archive_url"
         return 1
     }
@@ -538,59 +671,12 @@ perform_check() {
     return 0
 }
 
-perform_rollback_locked() {
-    if [ ! -f "$BACKUP_PATH" ]; then
-        error "没有找到回滚备份：$BACKUP_PATH"
-        return 1
-    fi
-    confirm "将使用 $BACKUP_PATH 覆盖当前内核，是否继续？" || return 0
-
-    _current_save="${TEMP_DIR}/clash_meta.current"
-    _rollback_stage="${CORE_DIR}/.clash_meta.rollback.$$"
-    if [ -f "$CORE_PATH" ]; then
-        cp -p "$CORE_PATH" "$_current_save" || return 1
-    fi
-
-    cp -p "$BACKUP_PATH" "$_rollback_stage" &&
-        chmod 4755 "$_rollback_stage" &&
-        mv -f "$_rollback_stage" "$CORE_PATH" || {
-            rm -f "$_rollback_stage"
-            error "恢复备份失败。"
-            return 1
-        }
-
-    if restart_openclash; then
-        success "已回滚到上一版本。"
-        return 0
-    fi
-
-    error "回滚后的内核无法重启 OpenClash。"
-    if [ -f "$_current_save" ]; then
-        cp -p "$_current_save" "$_rollback_stage" &&
-            chmod 4755 "$_rollback_stage" &&
-            mv -f "$_rollback_stage" "$CORE_PATH"
-        restart_openclash >/dev/null 2>&1 || true
-        warn "已尝试恢复回滚前的内核。"
-    fi
-    return 1
-}
-
-perform_rollback() {
-    require_root || return 1
-    require_openclash || return 1
-    acquire_lock || return 1
-
-    perform_rollback_locked
-    _rollback_status=$?
-    release_lock
-    return "$_rollback_status"
-}
-
 show_changelog() {
     require_commands curl mktemp date || return 1
     init_temp || return 1
     _changelog_json="${TEMP_DIR}/changelog.json"
 
+    info "正在获取 OpenClash Mihomo 更新日志..."
     if command -v jsonfilter >/dev/null 2>&1; then
         if download_file "$CHANGELOG_API" "$_changelog_json" 30; then
             _changelog_body="$(jsonfilter -i "$_changelog_json" -e '@.body' 2>/dev/null || true)"
@@ -605,19 +691,28 @@ show_changelog() {
     printf '%s\n' "$CHANGELOG_PAGE"
 }
 
+run_menu_action() {
+    _action_title="$1"
+    shift
+
+    printf '\n'
+    printf '%s%s%s\n' "$BLUE" "$_action_title" "$RESET"
+    printf '%s\n\n' "==========================================="
+    "$@"
+    pause
+}
+
 show_menu() {
     while true; do
-        clear_screen
         printf '%sMihomo Smart 内核管理工具 v%s%s\n' "$BLUE" "$SCRIPT_VERSION" "$RESET"
         printf '%s\n\n' "==========================================="
         show_current_info
         printf '\n%s\n' \
             "1. 检查并更新内核" \
             "2. 仅检查更新" \
-            "3. 回滚到上一版本" \
-            "4. 查看最新更新日志" \
+            "3. 查看最新更新日志" \
             "0. 退出"
-        printf '请选择 [0-4]: '
+        printf '请选择 [0-3]: '
 
         if ! read -r _menu_choice; then
             printf '\n'
@@ -625,10 +720,9 @@ show_menu() {
         fi
 
         case "$_menu_choice" in
-            1) perform_update; pause ;;
-            2) perform_check; pause ;;
-            3) perform_rollback; pause ;;
-            4) show_changelog; pause ;;
+            1) run_menu_action "检查并更新内核" perform_update ;;
+            2) run_menu_action "检查内核版本" perform_check ;;
+            3) run_menu_action "查看最新更新日志" show_changelog ;;
             0) success "感谢使用！"; return ;;
             *) warn "无效选项。"; pause ;;
         esac
@@ -641,7 +735,6 @@ parse_args() {
             -u|--update) MODE="update" ;;
             -a|--auto) MODE="update"; ASSUME_YES=1 ;;
             -k|--check) MODE="check" ;;
-            -r|--rollback) MODE="rollback" ;;
             -c|--changelog) MODE="changelog" ;;
             -p|--platform)
                 if [ "$#" -lt 2 ]; then
@@ -688,7 +781,6 @@ main() {
             ;;
         update) perform_update ;;
         check) perform_check ;;
-        rollback) perform_rollback ;;
         changelog) show_changelog ;;
     esac
 }

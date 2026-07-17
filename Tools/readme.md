@@ -59,16 +59,15 @@ chmod +x mrs.sh
 ## `smartcore.sh`
 
 Mihomo Smart 内核管理工具 `v1.0.0`，面向 OpenWrt、BusyBox `ash` 和 OpenClash。
-支持版本检查、更新、自动更新、回滚、更新日志和平台选择。
+支持版本检查、更新、自动更新、失败恢复、更新日志和平台选择。
 
 ```sh
 ./Tools/smartcore.sh --help
 ./Tools/smartcore.sh --check
 ./Tools/smartcore.sh --update
 ./Tools/smartcore.sh --auto
-./Tools/smartcore.sh --rollback
 ./Tools/smartcore.sh --changelog
-./Tools/smartcore.sh --platform linux-amd64-v3 --check
+./Tools/smartcore.sh --platform linux-amd64-v2 --check
 ```
 
 远程下载：
@@ -80,5 +79,7 @@ chmod +x smartcore.sh
 ./smartcore.sh --check
 ```
 
-无参数时启动交互菜单。更新和回滚需要 root 权限；更新前会备份当前内核，安装或
-重启失败时会自动恢复。计划任务请使用 `--auto`。
+无参数时启动交互菜单。更新需要 root 权限。脚本会在更新前临时备份当前内核：
+安装或重启失败时自动恢复，成功后立即删除备份。计划任务请使用 `--auto`。在
+x86_64 设备上，脚本会根据 CPU 指令集自动选择 `v3`、`v2` 或 `compatible`；
+`linux-amd64` 会作为自动选择别名处理。
