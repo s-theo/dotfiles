@@ -1,6 +1,6 @@
 #!/bin/sh
 # OpenClash Mihomo Smart 内核管理工具
-# 面向 OpenWrt / BusyBox ash，使用 OpenClash 官方 core 分支产物。
+# 面向 OpenWrt / BusyBox ash，直接使用 vernesong/mihomo 官方 Alpha Release。
 
 set -u
 
@@ -10,18 +10,21 @@ CORE_DIR="${SMARTCORE_CORE_DIR:-}"
 CORE_PATH=""
 BACKUP_PATH=""
 SERVICE_PATH="${SMARTCORE_SERVICE:-/etc/init.d/openclash}"
-RELEASE_BRANCH="${SMARTCORE_RELEASE_BRANCH:-master}"
+RELEASE_TAG="${SMARTCORE_RELEASE_TAG:-Prerelease-Alpha}"
 PLATFORM="${SMARTCORE_PLATFORM:-}"
 GITHUB_PROXY="${SMARTCORE_GITHUB_PROXY:-}"
-CORE_REPO="vernesong/OpenClash"
-CORE_BRANCH="core"
-VERSION_URL="https://raw.githubusercontent.com/${CORE_REPO}/${CORE_BRANCH}/${RELEASE_BRANCH}/core_version"
-CHANGELOG_API="https://api.github.com/repos/vernesong/OpenClash/releases/tags/mihomo"
-CHANGELOG_PAGE="https://github.com/vernesong/OpenClash/releases/tag/mihomo"
+RELEASE_REPO="vernesong/mihomo"
+RELEASE_BASE_URL="https://github.com/${RELEASE_REPO}/releases/download/${RELEASE_TAG}"
+RELEASE_API="https://api.github.com/repos/${RELEASE_REPO}/releases/tags/${RELEASE_TAG}"
+VERSION_URL="${RELEASE_BASE_URL}/version.txt"
+CHECKSUMS_URL="${RELEASE_BASE_URL}/checksums.txt"
+CHANGELOG_API="$RELEASE_API"
+CHANGELOG_PAGE="https://github.com/${RELEASE_REPO}/releases/tag/${RELEASE_TAG}"
 LOCK_DIR="/tmp/smartcore.lock"
 LOCK_HELD=0
 TEMP_DIR=""
 REMOTE_VERSION=""
+ASSET_SHA256=""
 LOCAL_VERSION=""
 LOCAL_INFO=""
 LOCAL_INFO_LOADED=0
@@ -92,7 +95,7 @@ Mihomo Smart 内核管理工具 v${SCRIPT_VERSION}
   SMARTCORE_PLATFORM        默认平台
   SMARTCORE_GITHUB_PROXY    GitHub 代理前缀
   SMARTCORE_CORE_DIR        覆盖内核目录（测试/特殊部署）
-  SMARTCORE_RELEASE_BRANCH  OpenClash core 发布目录，默认 master
+  SMARTCORE_RELEASE_TAG     Mihomo Release tag，默认 Prerelease-Alpha
 EOF
 }
 
@@ -108,6 +111,12 @@ cleanup() {
 
 trap cleanup 0
 trap 'exit 130' HUP INT TERM
+
+clear_screen() {
+    if [ -t 1 ]; then
+        clear
+    fi
+}
 
 pause() {
     if [ -t 0 ]; then
@@ -434,15 +443,15 @@ show_current_info() {
 
 fetch_remote_version() {
     init_temp || return 1
-    _version_file="${TEMP_DIR}/core_version"
+    _version_file="${TEMP_DIR}/version.txt"
 
-    info "正在获取 OpenClash 远程版本..."
+    info "正在获取 Mihomo Smart 远程版本..."
     if ! download_file "$VERSION_URL" "$_version_file" 30; then
-        error "无法获取 OpenClash core_version。"
+        error "无法获取 Mihomo Release version.txt。"
         return 1
     fi
 
-    REMOTE_VERSION="$(awk 'NR == 2 { print $1; exit }' "$_version_file")"
+    REMOTE_VERSION="$(awk 'NF { print $1; exit }' "$_version_file")"
     case "$REMOTE_VERSION" in
         alpha-smart-*) ;;
         *)
@@ -469,9 +478,52 @@ check_update() {
     return 1
 }
 
-core_archive_url() {
-    printf 'https://raw.githubusercontent.com/%s/%s/%s/smart/clash-%s.tar.gz\n' \
-        "$CORE_REPO" "$CORE_BRANCH" "$RELEASE_BRANCH" "$PLATFORM"
+core_asset_name() {
+    printf 'mihomo-%s-%s.gz\n' "$PLATFORM" "$REMOTE_VERSION"
+}
+
+core_asset_url() {
+    printf '%s/%s\n' "$RELEASE_BASE_URL" "$1"
+}
+
+fetch_asset_checksum() {
+    _asset_name="$1"
+    _checksum_file="${TEMP_DIR}/checksums.txt"
+
+    info "正在获取官方 SHA-256 校验文件..."
+    if ! download_file "$CHECKSUMS_URL" "$_checksum_file" 30; then
+        error "无法获取 Mihomo Release checksums.txt。"
+        return 1
+    fi
+
+    _expected_asset="./${_asset_name}"
+    ASSET_SHA256="$(
+        awk -v asset="$_expected_asset" '$2 == asset { print $1; exit }' "$_checksum_file"
+    )"
+    if [ "${#ASSET_SHA256}" -ne 64 ]; then
+        error "checksums.txt 中没有找到有效校验值：$_asset_name"
+        return 1
+    fi
+    case "$ASSET_SHA256" in
+        *[!0-9A-Fa-f]*)
+            error "checksums.txt 中的 SHA-256 格式异常：$_asset_name"
+            return 1
+            ;;
+    esac
+}
+
+verify_asset_checksum() {
+    _asset_path="$1"
+    _expected_sha256="$2"
+    _actual_sha256="$(sha256sum "$_asset_path" | awk '{ print $1; exit }')"
+
+    if [ "$_actual_sha256" != "$_expected_sha256" ]; then
+        error "内核 SHA-256 校验失败。"
+        error "期望: $_expected_sha256"
+        error "实际: ${_actual_sha256:-unknown}"
+        return 1
+    fi
+    success "内核 SHA-256 校验通过。"
 }
 
 validate_downloaded_core() {
@@ -623,21 +675,25 @@ perform_update_locked() {
     esac
 
     confirm "发现新版本 $REMOTE_VERSION，是否更新？" || return 0
-    _archive="${TEMP_DIR}/clash-${PLATFORM}.tar.gz"
+    _asset_name="$(core_asset_name)"
+    _archive="${TEMP_DIR}/${_asset_name}"
     _candidate="${TEMP_DIR}/clash"
-    _archive_url="$(core_archive_url)"
+    _asset_url="$(core_asset_url "$_asset_name")"
 
     info "正在下载 Smart 内核..."
-    download_file "$_archive_url" "$_archive" 300 1 || {
-        error "内核下载失败：$_archive_url"
+    download_file "$_asset_url" "$_archive" 300 1 || {
+        error "内核下载失败：$_asset_url"
         return 1
     }
+    fetch_asset_checksum "$_asset_name" || return 1
+    verify_asset_checksum "$_archive" "$ASSET_SHA256" || return 1
     gzip -t "$_archive" || {
         error "下载文件未通过 gzip 完整性校验。"
         return 1
     }
-    tar -xzf "$_archive" -C "$TEMP_DIR" || {
-        error "内核压缩包解压失败。"
+    gzip -dc "$_archive" > "$_candidate" || {
+        rm -f "$_candidate"
+        error "内核 gzip 解压失败。"
         return 1
     }
     validate_downloaded_core "$_candidate" || return 1
@@ -647,7 +703,7 @@ perform_update_locked() {
 perform_update() {
     require_root || return 1
     require_openclash || return 1
-    require_commands curl tar gzip awk sed uname mktemp mv cp chmod mkdir rm date id || return 1
+    require_commands curl gzip sha256sum awk sed uname mktemp mv cp chmod mkdir rm date id || return 1
     detect_platform || return 1
     acquire_lock || return 1
 
@@ -676,7 +732,7 @@ show_changelog() {
     init_temp || return 1
     _changelog_json="${TEMP_DIR}/changelog.json"
 
-    info "正在获取 OpenClash Mihomo 更新日志..."
+    info "正在获取 Mihomo Smart 更新日志..."
     if command -v jsonfilter >/dev/null 2>&1; then
         if download_file "$CHANGELOG_API" "$_changelog_json" 30; then
             _changelog_body="$(jsonfilter -i "$_changelog_json" -e '@.body' 2>/dev/null || true)"
@@ -695,7 +751,7 @@ run_menu_action() {
     _action_title="$1"
     shift
 
-    printf '\n'
+    clear_screen
     printf '%s%s%s\n' "$BLUE" "$_action_title" "$RESET"
     printf '%s\n\n' "==========================================="
     "$@"
@@ -704,6 +760,7 @@ run_menu_action() {
 
 show_menu() {
     while true; do
+        clear_screen
         printf '%sMihomo Smart 内核管理工具 v%s%s\n' "$BLUE" "$SCRIPT_VERSION" "$RESET"
         printf '%s\n\n' "==========================================="
         show_current_info
