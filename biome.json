@@ -28,7 +28,13 @@
     }
   },
   "linter": {
-    "enabled": false
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "suspicious": {
+        "noTsIgnore": "error"
+      }
+    }
   },
   "assist": {
     "enabled": true,

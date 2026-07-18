@@ -14,7 +14,7 @@ Applies to the entire repository. There are no nested instruction files.
 
 - `Proxy/Clash/`: Mihomo configuration templates. Preserve YAML anchors, policy/rule ordering, endpoints and credential-like template fields unless the task targets them.
 - `Proxy/Rules/`: tracked, generated `.mrs` binaries. Their local `*.txt` inputs are ignored by `.gitignore`.
-- `Tools/`: `linux.sh` (Debian/Ubuntu Bash 3.2 system maintenance), `mrs.sh` (Bash 3.2 rule conversion using `mihomo`) and `smartcore.sh` (OpenWrt/BusyBox `ash` Smart-core manager).
+- `Tools/`: `linux.sh` (Debian/Ubuntu system maintenance), `mrs.sh` (rule conversion using `mihomo`) and `smartcore.sh` (OpenWrt/BusyBox `ash` Smart-core manager).
 - `TeleBox_Custom_Plugins/`: standalone TeleBox TypeScript plugins using host-provided aliases and packages; this repository has no TeleBox build or test harness.
 - `zshrc/`, `Brewfile`: Linux/macOS shell and workstation setup.
 - `icon/`: binary image assets plus `icon/icon.json`.
@@ -23,15 +23,18 @@ Applies to the entire repository. There are no nested instruction files.
 
 ## Toolchain and commands
 
-- Use the `packageManager` version in `package.json` (`pnpm@11.14.0`). There is no Node version file; the current dependency graph requires Node `>=22.22.1`.
-- `pnpm-workspace.yaml` intentionally sets `minimumReleaseAge: 0`; do not change this policy without Theo's explicit authorization.
+- Read the package manager and its exact version from `package.json#packageManager`; read declared dependency and CLI ranges from `package.json`, and exact resolutions plus package-engine constraints from `pnpm-lock.yaml`. There is no separate Node runtime pin.
+- Read tool metadata from its owning configuration, such as `biome.json`, instead of recording version snapshots here.
+- Treat the dependency release-age policy in `pnpm-workspace.yaml` as intentional; do not change it without Theo's explicit authorization.
 - Install reproducibly: `pnpm install --frozen-lockfile`
-- Check supported files: `pnpm run format:check`
+- Run the canonical formatter, linter and assist check: `pnpm run format:check`
 - Apply Biome formatting/organize-imports only when intended: `pnpm run format`
 - Regenerate rule sets only when intended: `pnpm run mrs`
 - Always check patch whitespace: `git diff --check`
 
-Biome formats supported JSON/TypeScript files. It excludes `pnpm-lock.yaml`, Clash YAML, `.mrs` files and images; shell and Markdown are not validated by Biome. The linter is disabled. Do not add Prettier. `lint-staged` is configured but no Git hook invokes it automatically. There is no repository build, unit-test or TypeScript typecheck command.
+Biome checks supported JSON/TypeScript files with its formatter, recommended linter and organize-imports assist. It excludes `pnpm-lock.yaml`, Clash YAML, `.mrs` files and images; shell and Markdown are not validated by Biome. TypeScript diagnostic-suppression comments are rejected: reproduce the diagnostic and make a minimal type-safe root-cause fix instead of adding another suppression, `any`, double assertions or narrower checks. Do not add Prettier. `lint-staged` is configured but no Git hook invokes it automatically. There is no repository build, unit-test or TypeScript typecheck command.
+
+The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC languages. Keep shell, Zsh, YAML, Markdown and other unsupported files on their existing tools.
 
 ## Editing constraints
 
@@ -48,7 +51,7 @@ Biome formats supported JSON/TypeScript files. It excludes `pnpm-lock.yaml`, Cla
 
 ### Scripts and plugins
 
-- `Tools/linux.sh` and `Tools/mrs.sh` may use Bash 3.2 features; keep `Tools/smartcore.sh` POSIX/BusyBox `ash` compatible.
+- Keep `Tools/linux.sh` and `Tools/mrs.sh` compatible with Bash 3.2, the minimum declared in their headers; do not introduce newer Bash features. Keep `Tools/smartcore.sh` POSIX/BusyBox `ash` compatible.
 - Do not run interactive/update modes of system scripts as tests: they can install packages, alter firewalls/shells or replace and restart the OpenClash core.
 - TeleBox imports such as `@utils/*` and `teleproto` are supplied by the host project. Do not invent local dependencies or claim local typechecking coverage.
 - Keep asset filenames and `icon/icon.json` URLs aligned. Avoid changing public download URLs or proxy/sponsor endpoints incidentally.

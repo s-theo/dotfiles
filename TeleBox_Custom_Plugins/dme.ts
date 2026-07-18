@@ -15,7 +15,7 @@ import { getGlobalClient } from '@utils/globalClient'
 import { Plugin } from '@utils/pluginBase'
 import * as fs from 'fs'
 import * as path from 'path'
-import { Api, TelegramClient } from 'teleproto'
+import { Api, type TelegramClient } from 'teleproto'
 import { CustomFile } from 'teleproto/client/uploads'
 
 // 常量配置
@@ -34,20 +34,6 @@ const CONFIG = {
     NETWORK_ERROR: 5000
   }
 } as const
-
-// 工具函数
-const htmlEscape = (text: string): string =>
-  text.replace(
-    /[&<>"']/g,
-    (m) =>
-      ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#x27;'
-      })[m] || m
-  )
 
 const prefixes = ['.']
 const mainPrefix = prefixes[0]
@@ -382,8 +368,8 @@ const dme = async (msg: Api.Message) => {
     }
     // ================== 场景2：数量模式 (.dme 10) ==================
     else {
-      let count = parseInt(firstArg)
-      if (isNaN(count) || count <= 0) {
+      const count = parseInt(firstArg, 10)
+      if (Number.isNaN(count) || count <= 0) {
         // 如果没有回复且参数不对，默认可能是误触或需要帮助，但因为删除了命令，这里只打印日志
         console.log(`[DME] 参数无效`)
         return
