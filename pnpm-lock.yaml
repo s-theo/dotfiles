@@ -14,6 +14,7 @@ importers:
       lint-staged:
         specifier: ^17.0.8
         version: 17.0.8
+
 packages:
 
   '@biomejs/biome@2.5.4':
