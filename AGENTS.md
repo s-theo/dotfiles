@@ -7,7 +7,7 @@ Applies to the entire repository. There are no nested instruction files.
 1. Work from `/root/workspace/dotfiles` and read this file before editing.
 2. Inspect `git status --short --branch`, the current branch/upstream and any in-progress Git operation. Preserve all staged, unstaged and untracked work.
 3. `git fetch --prune origin` is safe for refreshing remote refs. Do not stash, reset, clean, rebase or switch branches unless Theo explicitly authorizes it.
-4. Do not run `pnpm pull` as a routine startup step. It executes `git fetch origin && git reset --hard origin/main`; use it only when the current branch is `main`, no Git operation is in progress, `git status --porcelain` is empty and Theo explicitly wants local `main` replaced by `origin/main`.
+4. `pnpm pull` executes `git fetch origin && git reset --hard origin/main`. Run it only on `main`, with no Git operation in progress and an empty `git status --porcelain`. If the worktree or index is dirty, stop and preserve the changes before any sync.
 5. If an applicable `AGENTS.md` already has unrelated changes, stop rather than overwrite them.
 
 ## Repository map
@@ -79,4 +79,4 @@ Biome formats supported JSON/TypeScript files. It excludes `pnpm-lock.yaml`, Cla
 - Commit, push, PR, merge, release and branch operations require Theo's explicit authorization.
 - Repository files are statically delivered from `main` by an external Vercel Git integration. Cloudflare provides DNS/CDN proxying, not Pages or Workers hosting; there is no tracked site build or deploy command.
 - Every push to `main` triggers `update_time.yml`. It replaces an existing `# Updated:` line in changed non-`.mrs` files under `Proxy/`, amends the tip commit with a Shanghai timestamp and bot author, then force-pushes `main`. Therefore the pushed SHA/message/author are not final.
-- After an authorized `main` push, wait for that workflow to finish and verify its result. Run `pnpm pull` only when still on `main`, no Git operation is active and `git status --porcelain` is empty, then confirm local `main` matches the rewritten `origin/main`.
+- After every commit pushed to `main`, wait for `update_time.yml` to complete its amend/force-push successfully, then run `pnpm pull`. Finish by confirming `git status --porcelain` is empty and `git rev-list --left-right --count HEAD...origin/main` reports `0 0`.
