@@ -12,5 +12,5 @@
     "@biomejs/biome": "^2.5.4",
     "lint-staged": "^17.0.8"
   },
-  "packageManager": "pnpm@11.13.1"
+  "packageManager": "pnpm@11.14.0"
 }
