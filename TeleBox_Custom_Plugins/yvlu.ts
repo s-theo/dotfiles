@@ -2,14 +2,13 @@
 //@ts-nocheck
 
 import { getGlobalClient } from '@utils/globalClient'
-import { createDirectoryInAssets, createDirectoryInTemp } from '@utils/pathHelpers'
+import { createDirectoryInAssets } from '@utils/pathHelpers'
 import { Plugin } from '@utils/pluginBase'
 import { getPrefixes } from '@utils/pluginManager'
 import { reviveEntities } from '@utils/tlRevive'
 import axios from 'axios'
 import { execFile } from 'child_process'
 import * as fs from 'fs'
-import _ from 'lodash'
 import * as path from 'path'
 import { Api } from 'teleproto'
 import { CustomFile } from 'teleproto/client/uploads.js'
@@ -51,7 +50,7 @@ async function checkTgsDependencies(): Promise<{
 }> {
   try {
     await execFileAsync('python3', ['-c', 'from rlottie_python import LottieAnimation'])
-  } catch (e) {
+  } catch {
     return {
       ok: false,
       message: '缺少 rlottie-python 依赖，请运行: pip3 install rlottie-python Pillow --break-system-packages'
@@ -59,7 +58,7 @@ async function checkTgsDependencies(): Promise<{
   }
   try {
     await execFileAsync('ffmpeg', ['-version'])
-  } catch (e) {
+  } catch {
     return {
       ok: false,
       message: '缺少 ffmpeg，请安装: apt-get install -y ffmpeg'
@@ -72,7 +71,7 @@ async function checkTgsDependencies(): Promise<{
 async function convertTgsToWebm(tgsBuffer: Buffer): Promise<Buffer> {
   const os = await import('os')
   const tmpDir = os.tmpdir()
-  const uniqueId = Date.now().toString() + '_' + Math.random().toString(36).slice(2)
+  const uniqueId = `${Date.now().toString()}_${Math.random().toString(36).slice(2)}`
   const tgsPath = path.join(tmpDir, `sticker_${uniqueId}.tgs`)
   const gifPath = path.join(tmpDir, `sticker_${uniqueId}.gif`)
   const webmPath = path.join(tmpDir, `sticker_${uniqueId}.webm`)
@@ -96,28 +95,14 @@ anim.save_animation(sys.argv[2])
   } finally {
     try {
       fs.unlinkSync(tgsPath)
-    } catch (e) {}
+    } catch {}
     try {
       fs.unlinkSync(gifPath)
-    } catch (e) {}
+    } catch {}
     try {
       fs.unlinkSync(webmPath)
-    } catch (e) {}
+    } catch {}
   }
-}
-
-// 检测是否为动态 WebP
-function isAnimatedWebP(buffer: Buffer): boolean {
-  if (!buffer || buffer.length < 12) return false
-  if (buffer.toString('ascii', 0, 4) !== 'RIFF' || buffer.toString('ascii', 8, 12) !== 'WEBP') {
-    return false
-  }
-  for (let i = 12; i < buffer.length - 4; i++) {
-    if (buffer.toString('ascii', i, i + 4) === 'ANIM') {
-      return true
-    }
-  }
-  return false
 }
 
 // 读取WebP图片尺寸
@@ -144,7 +129,7 @@ function getWebPDimensions(imageBuffer: any): { width: number; height: number } 
       return { width, height }
     }
     return { width: 512, height: 768 }
-  } catch (error) {
+  } catch {
     return { width: 512, height: 768 }
   }
 }
@@ -164,7 +149,7 @@ const resolveForwardSenderFromHeader = async (forwardHeader: Api.MessageFwdHeade
     try {
       const entity = await client?.getEntity(peer as any)
       if (entity) return entity
-    } catch (error) {}
+    } catch {}
   }
   const displayName = forwardHeader.fromName || forwardHeader.postAuthor || ''
   if (displayName) {
@@ -281,7 +266,7 @@ class YvluPlugin extends Plugin {
   async generateQuote(quoteData: any): Promise<{ buffer: Buffer; ext: string }> {
     try {
       let url = this.config?.apiUrl
-      if (!url || !url.trim()) url = DEFAULT_API_URL
+      if (!url?.trim()) url = DEFAULT_API_URL
 
       const response = await axios({
         method: 'post',
@@ -335,12 +320,12 @@ class YvluPlugin extends Plugin {
       // 4. 解析参数 (Quote)
       if (!args[1] || /^\d+$/.test(args[1])) {
         // yvlu 或 yvlu 3
-        count = parseInt(args[1]) || 1
+        count = parseInt(args[1], 10) || 1
         valid = true
       } else if (args[1] === 'r') {
         // yvlu r 3
         r = true
-        count = parseInt(args[2]) || 1
+        count = parseInt(args[2], 10) || 1
         valid = true
       } else {
         // yvlu 这里是自定义文字
@@ -350,7 +335,7 @@ class YvluPlugin extends Plugin {
       }
 
       if (valid) {
-        let replied = await msg.getReplyMessage()
+        const replied = await msg.getReplyMessage()
         if (!replied) {
           await msg.edit({ text: '请回复一条消息' })
           return
@@ -385,13 +370,13 @@ class YvluPlugin extends Plugin {
               try {
                 const peerId = (message as any).peerId || (message as any).fromId
                 if (peerId) sender = await client.getEntity(peerId)
-              } catch (e) {}
+              } catch {}
             }
             if (message.fwdFrom) {
-              let forwardedSender = undefined
+              let forwardedSender: unknown
               try {
                 forwardedSender = await message.forward?.getSender()
-              } catch (e) {}
+              } catch {}
               if (!forwardedSender) forwardedSender = await resolveForwardSenderFromHeader(message.fwdFrom, client)
               if (forwardedSender) sender = forwardedSender
             }
@@ -412,7 +397,7 @@ class YvluPlugin extends Plugin {
             const shouldShowAvatar = currentUserIdentifier !== previousUserIdentifier
             previousUserIdentifier = currentUserIdentifier
 
-            let photo: { url: string } | undefined = undefined
+            let photo: { url: string } | undefined
             if (shouldShowAvatar) {
               try {
                 const buffer = await client.downloadProfilePhoto(sender as any, { isBig: false })
@@ -421,12 +406,12 @@ class YvluPlugin extends Plugin {
                     url: `data:image/jpeg;base64,${buffer.toString('base64')}`
                   }
                 }
-              } catch (e) {}
+              } catch {}
             }
 
             // [自定义文字逻辑]
             if (i === 0) {
-              let replyTo = (trigger || msg)?.replyTo
+              const replyTo = (trigger || msg)?.replyTo
               if (customText) {
                 // 如果有自定义文字，替换当前消息内容
                 message.message = customText
@@ -463,11 +448,11 @@ class YvluPlugin extends Plugin {
                     }
                   }
                 }
-              } catch (e) {}
+              } catch {}
             }
 
             // [媒体处理逻辑 - 集成 TGS 支持]
-            let media: { url: string } | undefined = undefined
+            let media: { url: string } | undefined
             try {
               if (message.media) {
                 const isSticker = message.media instanceof Api.MessageMediaDocument && (message.media as Api.MessageMediaDocument).document && ((message.media as Api.MessageMediaDocument).document as any).attributes?.some((a: any) => a instanceof Api.DocumentAttributeSticker)
@@ -514,7 +499,7 @@ class YvluPlugin extends Plugin {
 
             items.push({
               from: {
-                id: userId ? parseInt(userId) : hashCode(sender.name),
+                id: userId ? parseInt(userId, 10) : hashCode(sender.name),
                 name: shouldShowAvatar ? name : '',
                 first_name: shouldShowAvatar ? firstName : undefined,
                 last_name: shouldShowAvatar ? lastName : undefined,
@@ -575,7 +560,7 @@ class YvluPlugin extends Plugin {
               } finally {
                 try {
                   fs.unlinkSync(webmPath)
-                } catch (e) {}
+                } catch {}
               }
             } else {
               const file = new CustomFile(`sticker.${imageExt}`, imageBuffer.length, '', imageBuffer)
@@ -654,8 +639,8 @@ class YvluPlugin extends Plugin {
       await msg.edit({ text: '✅ API已重置为默认' })
     } else {
       let url = sub
-      if (!url.startsWith('http')) url = 'https://' + url
-      if (!url.includes('/generate')) url = url.replace(/\/$/, '') + '/generate.webp'
+      if (!url.startsWith('http')) url = `https://${url}`
+      if (!url.includes('/generate')) url = `${url.replace(/\/$/, '')}/generate.webp`
       this.config!.apiUrl = url
       await this.saveConfig()
       await msg.edit({
@@ -676,7 +661,7 @@ class YvluPlugin extends Plugin {
       }
 
       const replied = await msg.getReplyMessage()
-      if (!replied || !replied.media) {
+      if (!replied?.media) {
         await msg.edit({ text: '❌ 请回复一张贴纸或图片' })
         return
       }
@@ -688,7 +673,7 @@ class YvluPlugin extends Plugin {
 
       if (replied.media instanceof Api.MessageMediaDocument) {
         const doc = replied.media.document as any
-        if (doc && doc.attributes) {
+        if (doc?.attributes) {
           isSticker = doc.attributes.some((a: any) => a instanceof Api.DocumentAttributeSticker)
         }
         if (isSticker && doc.id && doc.accessHash) {

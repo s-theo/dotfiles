@@ -1,15 +1,11 @@
 import { createDirectoryInAssets } from '@utils/pathHelpers'
 import { Plugin } from '@utils/pluginBase'
-import { getPrefixes } from '@utils/pluginManager'
 import axios from 'axios'
 import { exec } from 'child_process'
 import * as fs from 'fs/promises'
 import path from 'path'
 import { Api } from 'teleproto'
 import { promisify } from 'util'
-
-const prefixes = getPrefixes()
-const mainPrefix = prefixes[0]
 
 const execPromise = promisify(exec)
 const EDGE_TTS = '/root/.local/bin/edge-tts' // ✅ 强制绝对路径
