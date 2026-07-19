@@ -32,7 +32,7 @@ Applies to the entire repository. There are no nested instruction files.
 - Regenerate rule sets only when intended: `pnpm run mrs`
 - Always check patch whitespace: `git diff --check`
 
-Biome checks supported JSON/TypeScript files with its formatter, recommended linter and organize-imports assist. It excludes `pnpm-lock.yaml`, Clash YAML, `.mrs` files and images; shell and Markdown are not validated by Biome. TypeScript diagnostic-suppression comments are rejected: reproduce the diagnostic and make a minimal type-safe root-cause fix instead of adding another suppression, `any`, double assertions or narrower checks. Do not add Prettier. `lint-staged` is configured but no Git hook invokes it automatically. There is no repository build, unit-test or TypeScript typecheck command.
+Biome checks supported JSON/TypeScript files with its formatter, recommended linter and organize-imports assist. It excludes `pnpm-lock.yaml`, Clash YAML, `.mrs` files and images; shell and Markdown are not validated by Biome. TypeScript diagnostic-suppression comments are rejected: reproduce the diagnostic and make a minimal type-safe root-cause fix instead of adding another suppression, `any`, double assertions or narrower checks. Do not add Prettier. There is no repository build, unit-test or TypeScript typecheck command.
 
 The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC languages. Keep shell, Zsh, YAML, Markdown and other unsupported files on their existing tools.
 
