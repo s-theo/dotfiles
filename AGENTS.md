@@ -23,7 +23,7 @@ Applies to the entire repository. There are no nested instruction files.
 
 ## Toolchain and commands
 
-- Read the package manager and its exact version from `package.json#packageManager`; read declared dependency and CLI ranges from `package.json`, and exact resolutions plus package-engine constraints from `pnpm-lock.yaml`. There is no separate Node runtime pin.
+- Read the required Node version from `.nvmrc`, the package manager and its exact version from `package.json#packageManager`, declared dependency and CLI ranges from `package.json`, and exact resolutions from `pnpm-lock.yaml`.
 - Read tool metadata from its owning configuration, such as `biome.json`, instead of recording version snapshots here.
 - Treat the dependency release-age policy in `pnpm-workspace.yaml` as intentional; do not change it without Theo's explicit authorization.
 - Install reproducibly: `pnpm install --frozen-lockfile`
