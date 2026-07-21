@@ -1,10 +1,10 @@
 // YVLU Plugin - 生成文字语录贴纸 (TGS + 自定义文字 + API配置 完整版)
 //@ts-nocheck
 
-import { getGlobalClient } from '@utils/globalClient'
 import { createDirectoryInAssets } from '@utils/pathHelpers'
 import { Plugin } from '@utils/pluginBase'
 import { getPrefixes } from '@utils/pluginManager'
+import { getGlobalClient } from '@utils/runtimeManager'
 import { reviveEntities } from '@utils/tlRevive'
 import axios from 'axios'
 import { execFile } from 'child_process'

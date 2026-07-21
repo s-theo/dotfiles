@@ -11,8 +11,8 @@
  */
 
 import { getEntityWithHash } from '@utils/entityHelpers'
-import { getGlobalClient } from '@utils/globalClient'
 import { Plugin } from '@utils/pluginBase'
+import { getGlobalClient } from '@utils/runtimeManager'
 import * as fs from 'fs'
 import * as path from 'path'
 import { Api, type TelegramClient } from 'teleproto'

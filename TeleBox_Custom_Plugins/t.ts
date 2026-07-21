@@ -191,6 +191,7 @@ async function tts(msg: Api.Message) {
     file: r.oggFile,
     attributes: [
       new (Api as any).DocumentAttributeAudio({
+        duration: 0,
         voice: true
       })
     ]
