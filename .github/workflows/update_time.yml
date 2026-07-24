@@ -65,6 +65,6 @@ jobs:
                     "title": "Github Actions",
                     "badge": 1,
                     "sound": "multiwayinvitation.caf",
-                    "icon": "https://i.theojs.cn/cdn-cgi/image/format=png/logo/vercel-light.webp",
+                    "icon": "https://i.theojs.net/cdn-cgi/image/format=png/logo/vercel-light.webp",
                     "group": "Github Actions"
                   }'

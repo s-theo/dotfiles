@@ -448,7 +448,7 @@ setup_zsh_environment() {
         "$zsh_custom/plugins/zsh-syntax-highlighting" || return 1
 
     zshrc_tmp="$(mktemp "$HOME/.zshrc.tmp.XXXXXX")" || return 1
-    if curl -fsSL https://dot.theojs.cn/zshrc/linux-debian.zshrc -o "$zshrc_tmp"; then
+    if curl -fsSL https://dot.theojs.net/zshrc/linux-debian.zshrc -o "$zshrc_tmp"; then
         if ! chmod 600 "$zshrc_tmp" || ! mv -f "$zshrc_tmp" "$HOME/.zshrc"; then
             rm -f "$zshrc_tmp"
             error "❌ 无法替换 ~/.zshrc，原备份未受影响。"

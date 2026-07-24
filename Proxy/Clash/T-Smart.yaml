@@ -1,4 +1,4 @@
-# Updated: 2026-07-16 11:31:48
+# Updated: 2026-07-24 20:03:07
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -221,12 +221,12 @@ rules:
 
 # 规则集提供者
 rule-providers:
-  T-Direct: { <<: *rule-set-domain, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.mrs }
-  T-Global: { <<: *rule-set-domain, url: https://dot.theojs.cn/Proxy/Rules/T-Global.mrs }
-  T-EmbyDirect: { <<: *rule-set-domain, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.mrs }
-  T-EmbyGlobal: { <<: *rule-set-domain, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.mrs }
-  T-EmbyDirectIP: { <<: *rule-set-ipcidr, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirectIP.mrs }
-  T-EmbyGlobalIP: { <<: *rule-set-ipcidr, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobalIP.mrs }
+  T-Direct: { <<: *rule-set-domain, url: https://dot.theojs.net/Proxy/Rules/T-Direct.mrs }
+  T-Global: { <<: *rule-set-domain, url: https://dot.theojs.net/Proxy/Rules/T-Global.mrs }
+  T-EmbyDirect: { <<: *rule-set-domain, url: https://dot.theojs.net/Proxy/Rules/T-EmbyDirect.mrs }
+  T-EmbyGlobal: { <<: *rule-set-domain, url: https://dot.theojs.net/Proxy/Rules/T-EmbyGlobal.mrs }
+  T-EmbyDirectIP: { <<: *rule-set-ipcidr, url: https://dot.theojs.net/Proxy/Rules/T-EmbyDirectIP.mrs }
+  T-EmbyGlobalIP: { <<: *rule-set-ipcidr, url: https://dot.theojs.net/Proxy/Rules/T-EmbyGlobalIP.mrs }
   Tracking: { <<: *rule-set-domain, url: https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
   Advertising: { <<: *rule-set-domain, url: https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
   Private: { <<: *rule-set-domain, url: https://github.com/666OS/rules/raw/release/mihomo/domain/Private.mrs }

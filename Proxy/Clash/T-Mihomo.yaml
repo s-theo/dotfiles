@@ -1,4 +1,4 @@
-# Updated: 2026-02-06 11:15:11
+# Updated: 2026-07-24 20:03:07
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -276,12 +276,12 @@ BehaviorIP: &BehaviorIP { type: http, behavior: ipcidr, format: mrs, interval: 8
 
 # 规则提供者
 rule-providers:
-  T-Direct: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-Direct.mrs }
-  T-Global: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-Global.mrs }
-  T-EmbyDirect: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirect.mrs }
-  T-EmbyDirectIP: { <<: *BehaviorIP, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyDirectIP.mrs }
-  T-EmbyGlobal: { <<: *BehaviorDN, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobal.mrs }
-  T-EmbyGlobalIP: { <<: *BehaviorIP, url: https://dot.theojs.cn/Proxy/Rules/T-EmbyGlobalIP.mrs }
+  T-Direct: { <<: *BehaviorDN, url: https://dot.theojs.net/Proxy/Rules/T-Direct.mrs }
+  T-Global: { <<: *BehaviorDN, url: https://dot.theojs.net/Proxy/Rules/T-Global.mrs }
+  T-EmbyDirect: { <<: *BehaviorDN, url: https://dot.theojs.net/Proxy/Rules/T-EmbyDirect.mrs }
+  T-EmbyDirectIP: { <<: *BehaviorIP, url: https://dot.theojs.net/Proxy/Rules/T-EmbyDirectIP.mrs }
+  T-EmbyGlobal: { <<: *BehaviorDN, url: https://dot.theojs.net/Proxy/Rules/T-EmbyGlobal.mrs }
+  T-EmbyGlobalIP: { <<: *BehaviorIP, url: https://dot.theojs.net/Proxy/Rules/T-EmbyGlobalIP.mrs }
   # 域名规则
   Tracking: { <<: *BehaviorDN, url: https://github.com/666OS/rules/raw/release/mihomo/domain/Tracking.mrs }
   Advertising: { <<: *BehaviorDN, url: https://github.com/666OS/rules/raw/release/mihomo/domain/Advertising.mrs }
