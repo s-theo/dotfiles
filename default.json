@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "group:all", ":npm", ":semanticCommits", ":enableVulnerabilityAlertsWithLabel(security)", ":assignee(s-theo)", ":maintainLockFilesWeekly"],
+  "extends": ["config:recommended", "customManagers:biomeVersions", "group:all", ":npm", ":semanticCommits", ":enableVulnerabilityAlertsWithLabel(security)", ":assignee(s-theo)", ":maintainLockFilesWeekly"],
   "labels": ["dependencies"],
   "packageRules": [
     { "bumpVersion": "prerelease", "matchPackageNames": ["vitepress"] },
