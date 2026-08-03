@@ -15,7 +15,6 @@ Applies to the entire repository. There are no nested instruction files.
 - `Proxy/Clash/`: Mihomo configuration templates. Preserve YAML anchors, policy/rule ordering, endpoints and credential-like template fields unless the task targets them.
 - `Proxy/Rules/`: tracked, generated `.mrs` binaries. Their local `*.txt` inputs are ignored by `.gitignore`.
 - `Tools/`: `linux.sh` (Debian/Ubuntu system maintenance), `mrs.sh` (rule conversion using `mihomo`) and `smartcore.sh` (OpenWrt/BusyBox `ash` Smart-core manager).
-- `TeleBox_Custom_Plugins/`: standalone TeleBox TypeScript plugins using host-provided aliases and packages; this repository has no TeleBox build or test harness.
 - `zshrc/`, `Brewfile`: Linux/macOS shell and workstation setup.
 - `icon/`: binary image assets plus `icon/icon.json`.
 - `default.json`: shared Renovate preset; `renovate.json` extends it through `github>s-theo/dotfiles`.
@@ -49,11 +48,10 @@ The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC
 
 - Never hand-edit `.mrs` binaries. `pnpm run mrs` requires `mihomo`, reads ignored `Proxy/Rules/*.txt` files and rewrites tracked outputs. Run it only for an authorized rules change, then confirm only the intended `.mrs` files changed. If source text is unavailable, report that regeneration is blocked.
 
-### Scripts and plugins
+### Scripts and assets
 
 - Keep `Tools/linux.sh` and `Tools/mrs.sh` compatible with Bash 3.2, the minimum declared in their headers; do not introduce newer Bash features. Keep `Tools/smartcore.sh` POSIX/BusyBox `ash` compatible.
 - Do not run interactive/update modes of system scripts as tests: they can install packages, alter firewalls/shells or replace and restart the OpenClash core.
-- TeleBox imports such as `@utils/*` and `teleproto` are supplied by the host project. Do not invent local dependencies or claim local typechecking coverage.
 - Keep asset filenames and `icon/icon.json` URLs aligned. Avoid changing public download URLs or proxy/sponsor endpoints incidentally.
 
 ## Validation by change type
