@@ -5,7 +5,18 @@
   "minimumReleaseAge": "1 day",
   "minimumReleaseAgeBehaviour": "timestamp-required",
   "internalChecksFilter": "strict",
-  "packageRules": [{ "bumpVersion": "prerelease", "matchPackageNames": ["vitepress"] }],
+  "packageRules": [
+    { "bumpVersion": "prerelease", "matchPackageNames": ["vitepress"] },
+    {
+      "description": "Hold TypeScript 7 upgrades for manual approval",
+      "matchPackageNames": ["typescript"],
+      "matchCurrentVersion": "<7",
+      "matchNewValue": "/^[~^]?7\\./",
+      "groupName": "TypeScript 7",
+      "groupSlug": "typescript-7",
+      "dependencyDashboardApproval": true
+    }
+  ],
   "rangeStrategy": "bump",
   "timezone": "Asia/Shanghai"
 }
