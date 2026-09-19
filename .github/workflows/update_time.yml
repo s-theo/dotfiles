@@ -17,7 +17,7 @@ jobs:
 
       - name: Configure Git and date
         run: |
-          git config user.name "cloudflare-workers-and-pages[bot]"
+          git config user.name "Cloudflare"
           git config user.email "73139402+cloudflare-workers-and-pages[bot]@users.noreply.github.com"
           echo "DATE=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" >> "$GITHUB_ENV"
 
