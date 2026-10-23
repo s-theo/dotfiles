@@ -1,4 +1,4 @@
-# Updated: 2026-10-23 13:00:01
+# Updated: 2026-10-23 13:02:28
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -7,20 +7,20 @@ x-base-provider:
   &base-provider {
     type: http,
     interval: 86400,
-    health-check: { enable: true, url: "https://www.google.com/generate_204", interval: 300 },
-    filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))",
+    health-check: { enable: true, url: 'https://www.google.com/generate_204', interval: 300 },
+    filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))',
   }
 
-x-url-test: &url-test { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
-x-load-balance: &load-balance { type: load-balance, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
-x-fallback: &fallback { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
+x-url-test: &url-test { type: url-test, url: 'https://www.gstatic.com/generate_204', interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+x-load-balance: &load-balance { type: load-balance, url: 'https://www.gstatic.com/generate_204', interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
+x-fallback: &fallback { type: fallback, url: 'https://www.gstatic.com/generate_204', interval: 300, empty-fallback: REJECT }
 
-x-filter-hk: &filter-hk "^(?i)(?=.*(香港|港深|深港|沪港|广港|陆港|(?<![a-zA-Z])(hk|hkg)(?![a-zA-Z])|hongkong|hong kong|🇭🇰))(?!.*(排除)).*$"
-x-filter-tw: &filter-tw "^(?i)(?=.*(台湾|台北|台中|台南|台东|湾湾|(?<![a-zA-Z])(tw|tpe|khh|tsa)(?![a-zA-Z])|taiwan|taipei|🇹🇼|🇼🇸))(?!.*(排除)).*$"
-x-filter-jp: &filter-jp "^(?i)(?=.*(日本|东京|大阪|京都|神奈川|琦玉|(?<![a-zA-Z])(jp|nrt|hnd|kix|cts|fuk)(?![a-zA-Z])|japan|tokyo|🇯🇵))(?!.*(排除)).*$"
-x-filter-sg: &filter-sg "^(?i)(?=.*(新加坡|坡县|坡|狮城|(?<![a-zA-Z])(sg|sin|xsp)(?![a-zA-Z])|singapore|🇸🇬))(?!.*(排除)).*$"
-x-filter-kr: &filter-kr "^(?i)(?=.*(韩国|韓國|首尔|首爾|南朝鲜|(?<![a-zA-Z])(kr|icn|gmp|pus)(?![a-zA-Z])|korea|seoul|🇰🇷))(?!.*(排除)).*$"
-x-filter-us: &filter-us "^(?i)(?=.*(美国|美东|美西|美中|美南|美港|美日|中美|美专|(?<![a-zA-Z])(us|usa|lax|sfo|jfk|sjc)(?![a-zA-Z])|america|united states|🇺🇸))(?!.*(排除)).*$"
+x-filter-hk: &filter-hk '^(?i)(?=.*(香港|港深|深港|沪港|广港|陆港|(?<![a-zA-Z])(hk|hkg)(?![a-zA-Z])|hongkong|hong kong|🇭🇰))(?!.*(排除)).*$'
+x-filter-tw: &filter-tw '^(?i)(?=.*(台湾|台北|台中|台南|台东|湾湾|(?<![a-zA-Z])(tw|tpe|khh|tsa)(?![a-zA-Z])|taiwan|taipei|🇹🇼|🇼🇸))(?!.*(排除)).*$'
+x-filter-jp: &filter-jp '^(?i)(?=.*(日本|东京|大阪|京都|神奈川|琦玉|(?<![a-zA-Z])(jp|nrt|hnd|kix|cts|fuk)(?![a-zA-Z])|japan|tokyo|🇯🇵))(?!.*(排除)).*$'
+x-filter-sg: &filter-sg '^(?i)(?=.*(新加坡|坡县|坡|狮城|(?<![a-zA-Z])(sg|sin|xsp)(?![a-zA-Z])|singapore|🇸🇬))(?!.*(排除)).*$'
+x-filter-kr: &filter-kr '^(?i)(?=.*(韩国|韓國|首尔|首爾|南朝鲜|(?<![a-zA-Z])(kr|icn|gmp|pus)(?![a-zA-Z])|korea|seoul|🇰🇷))(?!.*(排除)).*$'
+x-filter-us: &filter-us '^(?i)(?=.*(美国|美东|美西|美中|美南|美港|美日|中美|美专|(?<![a-zA-Z])(us|usa|lax|sfo|jfk|sjc)(?![a-zA-Z])|america|united states|🇺🇸))(?!.*(排除)).*$'
 
 x-oversea: &oversea [香港策略, 台湾策略, 日本策略, 狮城策略, 韩国策略, 美国策略, DIRECT, 故障转移, 全球手动]
 x-direct: &direct [DIRECT, 故障转移, 全球手动, 香港策略, 台湾策略, 日本策略, 狮城策略, 韩国策略, 美国策略]
@@ -55,12 +55,12 @@ allow-lan: false
 unified-delay: true
 tcp-concurrent: true
 log-level: silent
-bind-address: "*"
-find-process-mode: "always"
+bind-address: '*'
+find-process-mode: 'always'
 keep-alive-interval: 15
 keep-alive-idle: 600
 authentication: [mihomo:yyds666]
-skip-auth-prefixes: [127.0.0.1/8, "::1/128"]
+skip-auth-prefixes: [127.0.0.1/8, '::1/128']
 experimental: { quic-go-disable-gso: true }
 
 # 控制面板
@@ -78,13 +78,13 @@ sniffer:
     HTTP: { ports: [80, 8080-8880], override-destination: true }
     TLS: { ports: [443, 8443] }
     QUIC: { ports: [443, 8443] }
-  skip-domain: ["Mijia Cloud", "+.push.apple.com"]
+  skip-domain: ['Mijia Cloud', '+.push.apple.com']
 
 # TUN模式
 tun:
   enable: false
   stack: mixed
-  dns-hijack: ["any:53", "tcp://any:53"]
+  dns-hijack: ['any:53', 'tcp://any:53']
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
@@ -97,7 +97,7 @@ dns:
   fake-ip-range: 198.18.0.1/16
   default-nameserver: [119.29.29.29, 180.184.1.1, 223.5.5.5]
   nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-  fake-ip-filter: ["+.lan", "*.local", "+.gstatic.com", "+.miwifi.com", "+.market.xiaomi.com", "+.push.apple.com"]
+  fake-ip-filter: ['+.lan', '*.local', '+.gstatic.com', '+.miwifi.com', '+.market.xiaomi.com', '+.push.apple.com']
 
 # 代理策略组
 proxy-groups:

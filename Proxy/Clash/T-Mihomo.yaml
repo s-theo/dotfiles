@@ -1,4 +1,4 @@
-# Updated: 2026-10-23 13:00:01
+# Updated: 2026-10-23 13:02:28
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -9,26 +9,26 @@ BaseProvider:
     type: http,
     interval: 86400,
     proxy: DIRECT,
-    health-check: { enable: true, url: "https://www.google.com/generate_204", interval: 300 },
-    filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))",
+    health-check: { enable: true, url: 'https://www.google.com/generate_204', interval: 300 },
+    filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))',
   }
 
 # 策略组类型模板 - 定义不同的策略组基础配置
-BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: "https://www.google.com/generate_204" }
-BaseCH: &BaseCH { type: load-balance, interval: 200, lazy: true, url: "https://www.google.com/generate_204", strategy: consistent-hashing, hidden: true }
-BaseCR: &BaseCR { type: load-balance, interval: 200, lazy: true, url: "https://www.google.com/generate_204", strategy: round-robin, hidden: true }
-BaseUT: &BaseUT { type: url-test, interval: 200, lazy: true, url: "https://www.google.com/generate_204", hidden: true }
+BaseFB: &BaseFB { type: fallback, interval: 200, lazy: true, url: 'https://www.google.com/generate_204' }
+BaseCH: &BaseCH { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: consistent-hashing, hidden: true }
+BaseCR: &BaseCR { type: load-balance, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', strategy: round-robin, hidden: true }
+BaseUT: &BaseUT { type: url-test, interval: 200, lazy: true, url: 'https://www.google.com/generate_204', hidden: true }
 
 # 节点筛选正则表达式 - 基于地理位置和关键词过滤
-FilterHK: &FilterHK "^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$"
-FilterSG: &FilterSG "^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$"
-FilterJP: &FilterJP "^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$"
-FilterKR: &FilterKR "^(?=.*(?i)(韩|🇰🇷|韓|首尔|南朝鲜|KR|KOR|Korea|South))(?!.*(排除1|排除2|5x)).*$"
-FilterUS: &FilterUS "^(?=.*(?i)(美|🇺🇸|US|USA|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD))(?!.*(排除1|排除2|5x)).*$"
-FilterTW: &FilterTW "^(?=.*(?i)(台|🇼🇸|🇹🇼|TW|tai|TPE|TSA|KHH))(?!.*(排除1|排除2|5x)).*$"
-FilterEU: &FilterEU "^(?=.*(?i)(奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU))(?!.*(排除1|排除2|5x)).*$"
-FilterOT: &FilterOT "^(?!.*(DIRECT|直接连接|美|港|坡|台|新|日|韩|奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇭🇰|🇼🇸|🇹🇼|🇸🇬|🇯🇵|🇰🇷|🇺🇸|🇬🇧|🇦🇹|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|HK|TW|SG|JP|KR|US|GB|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU|HKG|TPE|TSA|KHH|SIN|XSP|NRT|HND|KIX|CTS|FUK|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD|LHR|LGW))"
-FilterAL: &FilterAL "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"
+FilterHK: &FilterHK '^(?=.*(?i)(港|🇭🇰|HK|Hong|HKG))(?!.*(排除1|排除2|5x)).*$'
+FilterSG: &FilterSG '^(?=.*(?i)(坡|🇸🇬|SG|Sing|SIN|XSP))(?!.*(排除1|排除2|5x)).*$'
+FilterJP: &FilterJP '^(?=.*(?i)(日|🇯🇵|JP|Japan|NRT|HND|KIX|CTS|FUK))(?!.*(排除1|排除2|5x)).*$'
+FilterKR: &FilterKR '^(?=.*(?i)(韩|🇰🇷|韓|首尔|南朝鲜|KR|KOR|Korea|South))(?!.*(排除1|排除2|5x)).*$'
+FilterUS: &FilterUS '^(?=.*(?i)(美|🇺🇸|US|USA|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD))(?!.*(排除1|排除2|5x)).*$'
+FilterTW: &FilterTW '^(?=.*(?i)(台|🇼🇸|🇹🇼|TW|tai|TPE|TSA|KHH))(?!.*(排除1|排除2|5x)).*$'
+FilterEU: &FilterEU '^(?=.*(?i)(奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU))(?!.*(排除1|排除2|5x)).*$'
+FilterOT: &FilterOT '^(?!.*(DIRECT|直接连接|美|港|坡|台|新|日|韩|奥|比|保|克罗地亚|塞|捷|丹|爱沙|芬|法|德|希|匈|爱尔|意|拉|立|卢|马其它|荷|波|葡|罗|斯洛伐|斯洛文|西|瑞|英|🇭🇰|🇼🇸|🇹🇼|🇸🇬|🇯🇵|🇰🇷|🇺🇸|🇬🇧|🇦🇹|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|HK|TW|SG|JP|KR|US|GB|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU|HKG|TPE|TSA|KHH|SIN|XSP|NRT|HND|KIX|CTS|FUK|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD|LHR|LGW))'
+FilterAL: &FilterAL '^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))'
 
 # 策略组代理列表模板 - 预定义的代理节点优先级排序
 SelectFB: &SelectFB { type: select, proxies: [故障转移, 香港策略, 狮城策略, 日本策略, 韩国策略, 美国策略, 台湾策略, 欧盟策略, 冷门自选, 全球手动, 直接连接] }
@@ -42,9 +42,9 @@ SelectUS: &SelectUS { type: select, proxies: [美国策略, 默认代理, 故障
 # 注意：请提供您的机场订阅链接，每个链接一行，并为每个机场命名，末尾的[优][备]为每个节点添加机场名称前缀，可自定义
 proxy-providers:
   # 优质订阅源 - 优质节点集合，使用时请修改
-  优质服务商: { <<: *BaseProvider, url: "优质订阅源地址", override: { additional-prefix: "[优] " } }
+  优质服务商: { <<: *BaseProvider, url: '优质订阅源地址', override: { additional-prefix: '[优] ' } }
   # 备用订阅源 - 次优节点集合，使用时请修改
-  备用服务商: { <<: *BaseProvider, url: "备用订阅源地址", override: { additional-prefix: "[备] " } }
+  备用服务商: { <<: *BaseProvider, url: '备用订阅源地址', override: { additional-prefix: '[备] ' } }
 
 # ==================== 核心配置 ====================
 # 基础配置
@@ -59,8 +59,8 @@ allow-lan: true
 unified-delay: true
 tcp-concurrent: true
 log-level: warning
-bind-address: "*"
-find-process-mode: "always"
+bind-address: '*'
+find-process-mode: 'always'
 keep-alive-interval: 15
 keep-alive-idle: 600
 
@@ -101,16 +101,16 @@ sniffer:
     QUIC:
       ports: [443, 8443]
   skip-domain:
-    - "Mijia Cloud"
-    - "+.push.apple.com"
+    - 'Mijia Cloud'
+    - '+.push.apple.com'
 
 # TUN模式配置
 tun:
   enable: false
   stack: mixed
   dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
+    - 'any:53'
+    - 'tcp://any:53'
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
