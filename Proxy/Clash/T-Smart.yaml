@@ -1,4 +1,4 @@
-# Updated: 2026-07-24 20:03:07
+# Updated: 2026-10-23 13:00:01
 # Author: Theo
 # GitHub Source: https://github.com/s-theo/dotfiles
 
@@ -35,7 +35,6 @@ x-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs,
 proxy-providers:
   # Primary: {<<: *base-provider, url: 'YOUR_PRIMARY_URL', override: {additional-prefix: '[P] '}}
   # Backup:   {<<: *base-provider, url: 'YOUR_BACKUP_URL',  override: {additional-prefix: '[B] '}}
-
 # 自定义代理节点
 proxies:
   # - name: "ss1"
@@ -44,7 +43,6 @@ proxies:
   #   port: 443
   #   cipher: aes-128-gcm
   #   password: password
-
 # 基础设置
 mode: rule
 port: 7890
