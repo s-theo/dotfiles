@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
   "files": {
-    "includes": ["**", "!node_modules", "!pnpm-lock.yaml", "!Proxy/Clash/**/*.{yaml,yml}", "!Proxy/Rules/**/*.mrs", "!icon/**/*.{jpg,jpeg,png,webp,gif,svg,ico}"]
+    "includes": ["**", "!node_modules", "!pnpm-lock.yaml", "!Proxy/Rules/**/*.mrs", "!icon/**/*.{jpg,jpeg,png,webp,gif,svg,ico}"]
   },
   "formatter": {
     "enabled": true,

@@ -31,15 +31,15 @@ Applies to the entire repository. There are no nested instruction files.
 - Regenerate rule sets only when intended: `pnpm run mrs`
 - Always check patch whitespace: `git diff --check`
 
-Biome checks supported JSON/TypeScript files with its formatter, recommended linter and organize-imports assist. It excludes `pnpm-lock.yaml`, Clash YAML, `.mrs` files and images; shell and Markdown are not validated by Biome. TypeScript diagnostic-suppression comments are rejected: reproduce the diagnostic and make a minimal type-safe root-cause fix instead of adding another suppression, `any`, double assertions or narrower checks. Do not add Prettier. There is no repository build, unit-test or TypeScript typecheck command.
+Biome checks supported JSON/TypeScript/YAML/Markdown files, including Clash YAML, with its formatter and applicable lint/assist checks. YAML uses single quotes. It excludes `pnpm-lock.yaml`, `.mrs` files and images; shell files are not validated by Biome. TypeScript diagnostic-suppression comments are rejected: reproduce the diagnostic and make a minimal type-safe root-cause fix instead of adding another suppression, `any`, double assertions or narrower checks. Do not add Prettier. There is no repository build, unit-test or TypeScript typecheck command.
 
-The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC languages. Keep shell, Zsh, YAML, Markdown and other unsupported files on their existing tools.
+The VS Code workspace uses Biome for TypeScript, JSON, JSONC and YAML, with format-on-save enabled. YAML has a separate formatter-only setting; keep the existing TypeScript/JSON code actions unchanged. `pnpm-lock.yaml` remains excluded by Biome. Keep the existing editor setup for shell, Zsh, Markdown and other languages unchanged.
 
 ## Editing constraints
 
 ### Proxy
 
-- Do not broadly reformat Clash YAML or manually edit the `# Updated:` timestamp. Validate each changed config with Mihomo in a temporary data directory:
+- Format Clash YAML with the configured Biome single-quote style; preserve anchors, policy/rule ordering and configuration values. Do not manually edit the `# Updated:` timestamp. Validate each changed config with Mihomo in a temporary data directory:
 
   ```sh
   mihomo -t -d "$(mktemp -d)" -f "$PWD/Proxy/Clash/T-Mihomo.yaml"
@@ -57,7 +57,7 @@ The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC
 ## Validation by change type
 
 - Dependency metadata: `pnpm install --frozen-lockfile`, `pnpm run format:check`, `git diff --check`.
-- Biome-covered JSON/TypeScript: `pnpm run format:check`, `git diff --check`.
+- Biome-covered JSON/TypeScript/YAML/Markdown: `pnpm run format:check`, `git diff --check`; Clash YAML also requires the Mihomo check below when changed.
 - Tool shell scripts:
 
   ```sh
@@ -70,9 +70,9 @@ The VS Code workspace uses Biome only for the tracked TypeScript, JSON and JSONC
   ```
 
 - Zsh configuration: `zsh -n zshrc/*.zshrc`.
-- Clash YAML: run the applicable Mihomo command above plus `git diff --check`.
+- Clash YAML: run `pnpm run format:check`, the applicable Mihomo command above and `git diff --check`.
 - Rule sources/artifacts: run `pnpm run mrs` only as the intended generation step, then review `git diff --name-only -- Proxy/Rules`.
-- Documentation or `AGENTS.md` only: verify commands/paths against the repository and run `git diff --check`; Biome adds no coverage for Markdown.
+- Documentation or `AGENTS.md` only: verify commands/paths against the repository, run `pnpm run format:check` for Markdown and run `git diff --check`.
 - Before handoff, run `git status --short --branch` and prove the changed-file set contains no unrelated files.
 
 ## Git and delivery
