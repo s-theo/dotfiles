@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "customManagers:biomeVersions", "group:all", ":npm", ":semanticCommits", ":enableVulnerabilityAlertsWithLabel(security)", ":assignee(s-theo)", ":maintainLockFilesWeekly"],
   "labels": ["dependencies"],
+  "minimumReleaseAge": "1 day",
   "packageRules": [
     { "bumpVersion": "prerelease", "matchPackageNames": ["vitepress"] },
     {
