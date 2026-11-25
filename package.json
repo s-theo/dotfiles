@@ -6,7 +6,7 @@
     "pull": "git fetch origin && git reset --hard origin/main"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.8"
+    "@biomejs/biome": "^2.6.9"
   },
-  "packageManager": "pnpm@12.21.0"
+  "packageManager": "pnpm@12.23.0"
 }
